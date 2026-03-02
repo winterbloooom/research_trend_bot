@@ -1,0 +1,38 @@
+name: Daily Research Digest
+
+on:
+  schedule:
+    # UTC 08:00, weekdays (Mon-Fri)
+    - cron: "0 8 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install .
+
+      - name: Run digest pipeline
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: python -m research_trend_bot.main config.yaml
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: digest-logs-${{ github.run_id }}
+          path: "*.log"
+          retention-days: 7

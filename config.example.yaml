@@ -1,0 +1,50 @@
+# Research Trend Bot Configuration
+# Copy this file to config.yaml and customize for your use.
+
+research_interests:
+  - name: "LLM Agents"
+    keywords:
+      - "language model agent"
+      - "tool use"
+      - "function calling"
+      - "agentic"
+      - "ReAct"
+      - "chain-of-thought"
+    arxiv_categories:
+      - "cs.CL"
+      - "cs.AI"
+    # special_instructions: "이 분야를 잘 모르니 알기 쉽게 설명해줘"
+
+  - name: "Retrieval-Augmented Generation"
+    keywords:
+      - "RAG"
+      - "retrieval augmented"
+      - "dense retrieval"
+      - "knowledge grounding"
+    arxiv_categories:
+      - "cs.CL"
+      - "cs.IR"
+
+filtering:
+  score_threshold: 6      # 1-10, papers below this are filtered out
+  top_k: 5                # max papers to fully analyze
+  max_papers_per_interest: 50
+
+llm:
+  scoring_model: "gemini-2.5-flash-lite"
+  analysis_model: "gemini-2.5-flash"
+
+email:
+  smtp_host: "smtp.gmail.com"
+  smtp_port: 587
+  sender_address: "you@gmail.com"
+  sender_name: "Research Trend Bot"
+  recipients:
+    - "you@gmail.com"
+
+language: ko  # ko | en
+
+# Global special instructions applied to all scoring/analysis prompts (optional)
+# special_instructions: "공신력 있는 기관(Google, Meta 등)에서 나온 논문을 중심으로 분석해줘"
+
+days_back: 1

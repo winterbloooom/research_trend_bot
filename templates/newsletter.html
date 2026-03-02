@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Digest - {{ generated_at.strftime('%Y-%m-%d') }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f4f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f7;padding:24px 0;">
+    <tr>
+      <td align="center">
+        <table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;background-color:#ffffff;border-radius:8px;overflow:hidden;">
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#1a1a2e;padding:32px 24px;text-align:center;">
+              <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;">Research Digest</h1>
+              <p style="margin:8px 0 0;color:#a0a0c0;font-size:14px;">
+                {{ generated_at.strftime('%B %d, %Y') }} &middot;
+                {{ papers|length }} paper{{ 's' if papers|length != 1 else '' }} from {{ total_fetched }} scanned
+              </p>
+            </td>
+          </tr>
+
+          <!-- Interests Summary -->
+          <tr>
+            <td style="padding:24px 24px 8px;">
+              <p style="margin:0;font-size:12px;color:#666;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Tracking</p>
+              <p style="margin:6px 0 0;font-size:14px;color:#333;">
+                {% for interest in research_interests %}
+                  <span style="display:inline-block;background-color:#e8eaf6;color:#3949ab;padding:3px 10px;border-radius:12px;font-size:12px;margin:2px 2px;">{{ interest.name }}</span>
+                {% endfor %}
+              </p>
+            </td>
+          </tr>
+
+          {% if papers|length == 0 %}
+          <tr>
+            <td style="padding:32px 24px;text-align:center;">
+              <p style="color:#666;font-size:15px;">No highly relevant papers found today. Check back tomorrow!</p>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- Paper Cards -->
+          {% for item in papers %}
+          <tr>
+            <td style="padding:16px 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
+                <!-- Paper Header -->
+                <tr>
+                  <td style="padding:16px 20px;border-bottom:1px solid #f0f0f0;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="vertical-align:top;">
+                          <a href="{{ item.paper.abs_url }}" style="color:#1a1a2e;font-size:16px;font-weight:600;text-decoration:none;line-height:1.4;">
+                            {{ item.analysis.title }}
+                          </a>
+                          <p style="margin:4px 0 0;font-size:12px;color:#888;">
+                            {{ item.analysis.authors[:3]|join(', ') }}{% if item.analysis.authors|length > 3 %} et al.{% endif %}
+                            &middot; {{ item.paper.published.strftime('%Y-%m-%d') }}
+                          </p>
+                        </td>
+                        <td width="50" style="vertical-align:top;text-align:right;">
+                          <span style="display:inline-block;background-color:{% if item.relevance.score >= 8 %}#4caf50{% elif item.relevance.score >= 6 %}#ff9800{% else %}#9e9e9e{% endif %};color:#fff;font-size:14px;font-weight:700;padding:4px 10px;border-radius:12px;">
+                            {{ item.relevance.score }}
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
+                    <!-- Keywords -->
+                    <p style="margin:8px 0 0;">
+                      {% for kw in item.analysis.keywords %}
+                        <span style="display:inline-block;background-color:#f5f5f5;color:#555;padding:2px 8px;border-radius:10px;font-size:11px;margin:1px 1px;">{{ kw }}</span>
+                      {% endfor %}
+                    </p>
+                  </td>
+                </tr>
+
+                <!-- Task -->
+                <tr>
+                  <td style="padding:12px 20px 4px;">
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Task</p>
+                    <p style="margin:4px 0 0;font-size:13px;color:#333;line-height:1.5;">{{ item.analysis.task }}</p>
+                  </td>
+                </tr>
+
+                <!-- Problem & Motivation -->
+                <tr>
+                  <td style="padding:12px 20px 4px;">
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Problem &amp; Motivation</p>
+                    {{ item.analysis.problem_and_motivation | bulletize }}
+                  </td>
+                </tr>
+
+                <!-- Core Idea -->
+                <tr>
+                  <td style="padding:12px 20px 4px;">
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Core Idea</p>
+                    {{ item.analysis.core_idea | bulletize }}
+                  </td>
+                </tr>
+
+                <!-- Method -->
+                <tr>
+                  <td style="padding:12px 20px 4px;">
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Method</p>
+                    {{ item.analysis.method | bulletize }}
+                  </td>
+                </tr>
+
+                <!-- Results -->
+                <tr>
+                  <td style="padding:12px 20px 4px;">
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Experiments &amp; Results</p>
+                    {{ item.analysis.experiments_and_results | bulletize }}
+                  </td>
+                </tr>
+
+                <!-- Limitations -->
+                <tr>
+                  <td style="padding:12px 20px 4px;">
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Limitations</p>
+                    {{ item.analysis.limitations | bulletize }}
+                  </td>
+                </tr>
+
+                <!-- Why This Matters -->
+                <tr>
+                  <td style="padding:12px 20px 16px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="background-color:#e8f5e9;border-left:3px solid #4caf50;padding:10px 14px;border-radius:0 4px 4px 0;">
+                          <p style="margin:0;font-size:11px;color:#2e7d32;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Why This Matters to You</p>
+                          {{ item.analysis.personal_relevance | bulletize }}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <!-- Paper Link -->
+                <tr>
+                  <td style="padding:0 20px 16px;text-align:right;">
+                    <a href="{{ item.paper.pdf_url }}" style="font-size:12px;color:#3949ab;text-decoration:none;">PDF</a>
+                    <span style="color:#ccc;margin:0 4px;">|</span>
+                    <a href="{{ item.paper.abs_url }}" style="font-size:12px;color:#3949ab;text-decoration:none;">arXiv</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endfor %}
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px 24px;border-top:1px solid #e0e0e0;text-align:center;">
+              <p style="margin:0;font-size:11px;color:#999;">
+                Generated by Research Trend Bot &middot;
+                {{ total_scored }} papers scored, {{ papers|length }} analyzed
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
