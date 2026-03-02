@@ -25,11 +25,11 @@ src/research_trend_bot/
   analyzer.py      # Stage 2: full PDF analysis via Gemini
   email_builder.py # Jinja2 HTML + plain-text email builder
   sender.py        # SMTP email sender
+  templates/
+    newsletter.html # Jinja2 email template (packaged with the module)
   prompts/
     scoring.py     # Scoring system/user prompts
     analysis.py    # Analysis system/user prompts
-templates/
-  newsletter.html  # Jinja2 email template
 config.example.yaml
 .github/workflows/daily_digest.yml  # GitHub Actions cron (weekdays UTC 08:00)
 ```

@@ -12,8 +12,8 @@ from research_trend_bot.models import DigestReport
 
 logger = logging.getLogger(__name__)
 
-# Template directory: <project_root>/templates/
-_TEMPLATE_DIR = Path(__file__).resolve().parent.parent.parent / "templates"
+# Template directory: <package>/templates/
+_TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
 
 
 def _bulletize(text: str) -> Markup:

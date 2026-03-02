@@ -24,3 +24,6 @@ research-trend-bot = "research_trend_bot.main:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+research_trend_bot = ["templates/*.html"]
