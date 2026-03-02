@@ -2,8 +2,8 @@ name: Daily Research Digest
 
 on:
   schedule:
-    # UTC 08:00, weekdays (Mon-Fri)
-    - cron: "0 8 * * 1-5"
+    # UTC 02:00 (KST 11:00), weekdays (Mon-Fri)
+    - cron: "0 2 * * 1-5"
   workflow_dispatch:
 
 jobs:
