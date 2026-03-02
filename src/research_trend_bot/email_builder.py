@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
@@ -20,7 +21,11 @@ def _bulletize(text: str) -> Markup:
     """Convert bullet-point text to an HTML <ul> list.
 
     Falls back to <br>-separated paragraph if no bullets detected.
+    Handles cases where the LLM concatenates bullets without newlines
+    (e.g., "...sentence.- next bullet").
     """
+    # Normalize: insert newline before "- " when glued after punctuation
+    text = re.sub(r"(?<=[.!?。])\s*- ", "\n- ", text)
     lines = [line.strip() for line in text.strip().split("\n") if line.strip()]
     bullets = [line for line in lines if line.startswith("- ")]
 

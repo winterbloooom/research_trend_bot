@@ -53,7 +53,7 @@
                       <tr>
                         <td style="vertical-align:top;">
                           <a href="{{ item.paper.abs_url }}" style="color:#1a1a2e;font-size:16px;font-weight:600;text-decoration:none;line-height:1.4;">
-                            {{ item.analysis.title }}
+                            {{ item.paper.title }}
                           </a>
                           <p style="margin:4px 0 0;font-size:12px;color:#888;">
                             {{ item.analysis.authors[:3]|join(', ') }}{% if item.analysis.authors|length > 3 %} et al.{% endif %}
