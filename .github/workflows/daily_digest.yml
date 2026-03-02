@@ -23,6 +23,11 @@ jobs:
       - name: Install dependencies
         run: pip install .
 
+      - name: Write config.yaml from secret
+        run: echo "$CONFIG_YAML" > config.yaml
+        env:
+          CONFIG_YAML: ${{ secrets.CONFIG_YAML }}
+
       - name: Run digest pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
