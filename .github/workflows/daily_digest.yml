@@ -38,11 +38,3 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python -m research_trend_bot.main config.yaml
-
-      - name: Upload logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: digest-logs-${{ github.run_id }}
-          path: "*.log"
-          retention-days: 7
