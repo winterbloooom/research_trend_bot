@@ -9,6 +9,9 @@ Automated research paper digest bot — fetches arxiv papers, scores relevance w
 python -m research_trend_bot.main              # uses config.yaml
 python -m research_trend_bot.main config.yaml  # explicit path
 
+# Run biweekly feedback summarization
+python -m research_trend_bot.feedback_cli config.yaml
+
 # Install in dev mode
 pip install -e .
 ```
@@ -25,13 +28,18 @@ src/research_trend_bot/
   analyzer.py      # Stage 2: full PDF analysis via Gemini
   email_builder.py # Jinja2 HTML + plain-text email builder
   sender.py        # SMTP email sender
+  feedback.py      # GitHub Issue-based feedback: load, format, summarize, URL builder
+  feedback_cli.py  # CLI entry point for biweekly feedback summarization
   templates/
     newsletter.html # Jinja2 email template (packaged with the module)
   prompts/
     scoring.py     # Scoring system/user prompts
     analysis.py    # Analysis system/user prompts
+    feedback_summary.py  # Feedback summarization prompt
 config.example.yaml
-.github/workflows/daily_digest.yml  # GitHub Actions cron (weekdays UTC 08:00)
+feedback_summary.json                        # LLM-generated feedback summary (auto-updated)
+.github/workflows/daily_digest.yml           # GitHub Actions cron (weekdays KST 11:00 / UTC 02:00)
+.github/workflows/feedback_summary.yml       # Biweekly feedback summary (1st & 15th, UTC 03:00)
 ```
 
 ## Key dependencies
@@ -40,7 +48,7 @@ config.example.yaml
 - `arxiv` — arXiv search API
 - `pydantic` — data models and validation
 - `jinja2` / `markupsafe` — email template rendering
-- `httpx` — PDF download
+- `httpx` — PDF download + GitHub API calls (feedback)
 - `pypdf` — PDF page count validation
 - `tenacity` — retry logic for analysis API calls
 - `python-dotenv` — .env secret loading
@@ -48,10 +56,11 @@ config.example.yaml
 ## Configuration
 
 - **Config**: `config.yaml` (gitignored) — copy from `config.example.yaml`
-- **Secrets**: `.env` file with `GEMINI_API_KEY` and `SMTP_PASSWORD`
+- **Secrets**: `.env` file with `GEMINI_API_KEY`, `SMTP_PASSWORD`, and optionally `GITHUB_TOKEN`
 - Two levels of `special_instructions`: per-interest and global
 - `language`: `"ko"` (Korean, default) or `"en"`
 - `days_back` auto-expands up to 7 if no papers found (e.g., weekends)
+- **Feedback** (opt-in): `feedback.enabled: true` + `feedback.github_repo: "owner/repo"` — collects thumbs up/down via GitHub Issues; disabled by default with zero impact on existing behavior
 
 ## Testing rules
 
@@ -67,3 +76,6 @@ config.example.yaml
 - `PdfReader` requires `io.BytesIO()` wrapper around raw bytes
 - `config.yaml` is gitignored; `config.example.yaml` is committed
 - The `email_builder.py` `bulletize` Jinja2 filter converts `"- "` prefixed lines to `<ul><li>` HTML
+- Feedback system is fully opt-in (`feedback.enabled: false` by default) — when disabled, `feedback_context=""` is passed through scorer/analyzer with no prompt changes and no email buttons rendered
+- Feedback Issue body uses `**Key**: value` format parsed by `_parse_issue_body()` regex
+- `feedback_summary.json` is committed to repo and auto-updated by the biweekly workflow

@@ -5,6 +5,14 @@ Automated daily digest of arxiv papers tailored to your research interests. Fetc
 ## Pipeline Flow
 
 ```
+                       GitHub Issues (opt-in)
+                              │
+                     ┌────────┴────────┐
+                     │ Load Feedback   │
+                     │ (recent + summary)│
+                     └────────┬────────┘
+                              │ feedback_context
+                              ▼
 arxiv API          Gemini Flash-Lite         Gemini Flash           SMTP
    │                     │                       │                   │
    ▼                     ▼                       ▼                   ▼
@@ -12,9 +20,9 @@ arxiv API          Gemini Flash-Lite         Gemini Flash           SMTP
 │ Fetch  │────────▶│  Score   │────────▶│ Analyze   │────────▶│ Email │
 │ Papers │         │ Abstracts│         │ Full PDFs │         │ Build │──▶ Send
 └────────┘         └──────────┘         └───────────┘         └───────┘
-     │                  │
-     │  adaptive        │  keyword pre-filter
-     │  days_back       │  + batch scoring (25/batch)
+     │                  │                                         │
+     │  adaptive        │  keyword pre-filter               👍/👎 buttons
+     │  days_back       │  + batch scoring (25/batch)       (GitHub Issue URLs)
      │  (1→3→5→7)       │  + 429 retry w/ backoff
 ```
 
@@ -33,11 +41,12 @@ arxiv API          Gemini Flash-Lite         Gemini Flash           SMTP
 - **Two-stage LLM pipeline** — fast scoring to filter, then deep PDF analysis on top papers only
 - **Keyword pre-filter** — local substring matching before LLM calls to save API quota
 - **Adaptive date window** — auto-expands `days_back` (1 → 3 → 5 → 7) when no papers found (e.g., weekends)
+- **Feedback loop** — opt-in thumbs up/down buttons in emails collect feedback via GitHub Issues; recent feedback and LLM-generated summaries are injected into scoring/analysis prompts to improve future recommendations
 - **Special instructions** — per-interest and global free-text instructions injected into LLM prompts
 - **Multi-language** — output in Korean (`ko`, default) or English (`en`), with technical terms kept in English
 - **Bullet-point format** — analysis results use concise bullet points, rendered as `<ul>` in email
 - **Rate-limit resilience** — 429 retry with server-suggested `retryDelay` backoff
-- **GitHub Actions** — scheduled to run weekdays at UTC 08:00
+- **GitHub Actions** — daily digest (weekdays KST 11:00) + biweekly feedback summary (1st & 15th)
 
 ## Setup
 
@@ -64,6 +73,7 @@ Create a `.env` file:
 ```
 GEMINI_API_KEY=your-gemini-api-key
 SMTP_PASSWORD=your-gmail-app-password
+GITHUB_TOKEN=your-github-token    # optional, only needed if feedback is enabled
 ```
 
 ### 4. Run
@@ -105,6 +115,12 @@ days_back: 1           # auto-expands up to 7 if no papers found
 
 # Global instruction applied to all scoring/analysis
 special_instructions: "Prioritize papers from reputable institutions."
+
+# Optional: GitHub Issue-based feedback (disabled by default)
+feedback:
+  enabled: true
+  github_repo: "owner/repo"
+  github_token_env: "GITHUB_TOKEN"
 ```
 
 ### Key options
@@ -116,10 +132,22 @@ special_instructions: "Prioritize papers from reputable institutions."
 | `language` | Output language (`ko` or `en`) | `ko` |
 | `days_back` | Initial search window in days | `1` |
 | `special_instructions` | Free-text instructions for LLM (global or per-interest) | `None` |
+| `feedback.enabled` | Enable GitHub Issue feedback buttons in email | `false` |
+| `feedback.github_repo` | GitHub repo for feedback issues (`"owner/repo"`) | `""` |
+| `feedback.github_token_env` | Env var name for GitHub token | `"GITHUB_TOKEN"` |
 
 ## GitHub Actions
 
-The included workflow (`.github/workflows/daily_digest.yml`) runs the pipeline on weekdays at UTC 08:00. Add `GEMINI_API_KEY` and `SMTP_PASSWORD` as repository secrets.
+Two workflows are included:
+
+| Workflow | Schedule | Purpose |
+|----------|----------|---------|
+| `daily_digest.yml` | Weekdays KST 11:00 (UTC 02:00) | Run the full digest pipeline |
+| `feedback_summary.yml` | 1st & 15th of each month (UTC 03:00) | Summarize feedback + close old issues |
+
+**Required secrets**: `GEMINI_API_KEY`, `SMTP_PASSWORD`, `CONFIG_YAML`
+
+**Optional secrets**: `GITHUB_TOKEN` (needed only if feedback is enabled)
 
 ## License
 
