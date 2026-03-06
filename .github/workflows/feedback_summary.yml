@@ -1,0 +1,49 @@
+name: Biweekly Feedback Summary
+
+on:
+  schedule:
+    # 1st and 15th of each month at UTC 03:00
+    - cron: "0 3 1,15 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install .
+
+      - name: Write config.yaml from secret
+        run: echo "$CONFIG_YAML" > config.yaml
+        env:
+          CONFIG_YAML: ${{ secrets.CONFIG_YAML }}
+
+      - name: Run feedback summarization
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m research_trend_bot.feedback_cli config.yaml
+
+      - name: Commit and push feedback summary
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -f feedback_summary.json ]; then
+            git add feedback_summary.json
+            git diff --cached --quiet || git commit -m "Update feedback summary [skip ci]"
+            git push
+          fi

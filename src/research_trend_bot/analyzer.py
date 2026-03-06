@@ -140,12 +140,15 @@ def analyze_papers(
     client: genai.Client,
     config: AppConfig,
     scored_papers: list[ScoredPaper],
+    feedback_context: str = "",
 ) -> list[AnalyzedPaper]:
     """Analyze all scored papers, skipping those that fail."""
     if not scored_papers:
         return []
 
     interests_desc = _format_interests(config)
+    if feedback_context:
+        interests_desc += "\n\n" + feedback_context
     results: list[AnalyzedPaper] = []
 
     for idx, sp in enumerate(scored_papers):

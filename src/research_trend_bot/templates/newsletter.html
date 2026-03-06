@@ -143,6 +143,16 @@
                   </td>
                 </tr>
 
+                {% if feedback_urls and item.paper.arxiv_id in feedback_urls %}
+                <!-- Feedback Buttons -->
+                <tr>
+                  <td style="padding:8px 20px 4px;text-align:center;">
+                    <a href="{{ feedback_urls[item.paper.arxiv_id]['positive'] }}" style="display:inline-block;padding:5px 14px;font-size:12px;color:#2e7d32;background-color:#e8f5e9;border-radius:14px;text-decoration:none;margin:0 4px;">&#128077; Relevant</a>
+                    <a href="{{ feedback_urls[item.paper.arxiv_id]['negative'] }}" style="display:inline-block;padding:5px 14px;font-size:12px;color:#c62828;background-color:#ffebee;border-radius:14px;text-decoration:none;margin:0 4px;">&#128078; Not Relevant</a>
+                  </td>
+                </tr>
+                {% endif %}
+
                 <!-- Paper Link -->
                 <tr>
                   <td style="padding:0 20px 16px;text-align:right;">

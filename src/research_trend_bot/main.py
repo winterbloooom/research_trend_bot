@@ -10,8 +10,14 @@ from pathlib import Path
 from google import genai
 
 from research_trend_bot.analyzer import analyze_papers
-from research_trend_bot.config import get_gemini_api_key, get_smtp_password, load_config
+from research_trend_bot.config import get_gemini_api_key, get_github_token, get_smtp_password, load_config
 from research_trend_bot.email_builder import build_email
+from research_trend_bot.feedback import (
+    build_feedback_urls,
+    format_feedback_context,
+    load_feedback_summary,
+    load_recent_feedback,
+)
 from research_trend_bot.fetcher import fetch_papers
 from research_trend_bot.models import DigestReport
 from research_trend_bot.scorer import score_papers
@@ -30,6 +36,20 @@ def run(config_path: str) -> None:
 
     client = genai.Client(api_key=api_key)
 
+    # ── Load feedback (optional) ────────────────────────
+    feedback_context = ""
+    if config.feedback.enabled:
+        token = get_github_token(config.feedback.github_token_env)
+        if token:
+            logger.info("=== Loading user feedback ===")
+            feedback = load_recent_feedback(config, token)
+            summary = load_feedback_summary()
+            feedback_context = format_feedback_context(feedback, summary)
+            if feedback_context:
+                logger.info("Feedback context loaded (%d chars)", len(feedback_context))
+        else:
+            logger.warning("Feedback enabled but GitHub token not set; skipping")
+
     # ── Stage 0: Fetch papers ──────────────────────────
     logger.info("=== Stage 0: Fetching papers from arxiv ===")
     papers = fetch_papers(config)
@@ -39,14 +59,14 @@ def run(config_path: str) -> None:
 
     # ── Stage 1: Score abstracts ───────────────────────
     logger.info("=== Stage 1: Scoring %d abstracts ===", len(papers))
-    scored = score_papers(client, config, papers)
+    scored = score_papers(client, config, papers, feedback_context=feedback_context)
     if not scored:
         logger.info("No papers above relevance threshold. Skipping email.")
         return
 
     # ── Stage 2: Analyze full papers ───────────────────
     logger.info("=== Stage 2: Analyzing %d papers ===", len(scored))
-    analyzed = analyze_papers(client, config, scored)
+    analyzed = analyze_papers(client, config, scored, feedback_context=feedback_context)
     if not analyzed:
         logger.info("No papers successfully analyzed. Skipping email.")
         return
@@ -61,7 +81,16 @@ def run(config_path: str) -> None:
         papers=analyzed,
     )
 
-    html_body, plain_body = build_email(report)
+    # Build per-paper feedback URLs if enabled
+    feedback_urls: dict[str, dict[str, str]] | None = None
+    if config.feedback.enabled and config.feedback.github_repo:
+        feedback_urls = {}
+        for item in analyzed:
+            feedback_urls[item.paper.arxiv_id] = build_feedback_urls(
+                config.feedback.github_repo, item
+            )
+
+    html_body, plain_body = build_email(report, feedback_urls=feedback_urls)
     subject = f"Research Digest - {report.generated_at.strftime('%Y-%m-%d')} ({len(analyzed)} papers)"
 
     # ── Send email ─────────────────────────────────────

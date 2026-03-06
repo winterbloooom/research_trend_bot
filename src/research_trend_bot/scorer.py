@@ -131,6 +131,7 @@ def score_papers(
     client: genai.Client,
     config: AppConfig,
     papers: list[ArxivPaper],
+    feedback_context: str = "",
 ) -> list[ScoredPaper]:
     """Score all papers in batches and return those above threshold, sorted by score."""
     if not papers:
@@ -141,6 +142,8 @@ def score_papers(
         return []
 
     interests_desc = _format_interests(config)
+    if feedback_context:
+        interests_desc += "\n\n" + feedback_context
     all_scores: dict[str, RelevanceScore] = {}
 
     for i in range(0, len(papers), BATCH_SIZE):

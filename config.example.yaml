@@ -47,4 +47,10 @@ language: ko  # ko | en
 # Global special instructions applied to all scoring/analysis prompts (optional)
 # special_instructions: "공신력 있는 기관(Google, Meta 등)에서 나온 논문을 중심으로 분석해줘"
 
+# Feedback: collect thumbs up/down via GitHub Issues (optional)
+# feedback:
+#   enabled: true
+#   github_repo: "owner/repo"      # GitHub repo for feedback issues
+#   github_token_env: "GITHUB_TOKEN"  # env var name for GitHub token
+
 days_back: 1

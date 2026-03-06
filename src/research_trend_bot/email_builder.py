@@ -48,7 +48,10 @@ def _bulletize(text: str) -> Markup:
     )
 
 
-def _build_plain_text(report: DigestReport) -> str:
+def _build_plain_text(
+    report: DigestReport,
+    feedback_urls: dict[str, dict[str, str]] | None = None,
+) -> str:
     """Build a plain-text fallback of the digest."""
     lines = [
         f"Research Digest - {report.generated_at.strftime('%Y-%m-%d')}",
@@ -87,15 +90,26 @@ def _build_plain_text(report: DigestReport) -> str:
             "",
             f"PDF: {item.paper.pdf_url}",
             f"arXiv: {item.paper.abs_url}",
-            "-" * 60,
-            "",
         ])
+
+        if feedback_urls and item.paper.arxiv_id in feedback_urls:
+            urls = feedback_urls[item.paper.arxiv_id]
+            lines.append(f"Feedback: Relevant={urls['positive']}  Not Relevant={urls['negative']}")
+
+        lines.extend(["-" * 60, ""])
 
     return "\n".join(lines)
 
 
-def build_email(report: DigestReport) -> tuple[str, str]:
+def build_email(
+    report: DigestReport,
+    feedback_urls: dict[str, dict[str, str]] | None = None,
+) -> tuple[str, str]:
     """Build HTML and plain-text email bodies.
+
+    Args:
+        report: The digest report to render.
+        feedback_urls: Optional per-paper feedback URLs keyed by arxiv_id.
 
     Returns:
         (html_body, plain_text_body)
@@ -114,9 +128,10 @@ def build_email(report: DigestReport) -> tuple[str, str]:
         total_fetched=report.total_fetched,
         total_scored=report.total_scored,
         papers=report.papers,
+        feedback_urls=feedback_urls,
     )
 
-    plain = _build_plain_text(report)
+    plain = _build_plain_text(report, feedback_urls=feedback_urls)
 
     logger.info("Email built: %d chars HTML, %d chars plain text", len(html), len(plain))
     return html, plain

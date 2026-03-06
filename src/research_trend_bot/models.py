@@ -46,6 +46,14 @@ class LLMConfig(BaseModel):
     analysis_model: str = "gemini-2.5-flash"
 
 
+class FeedbackConfig(BaseModel):
+    """GitHub Issue-based feedback configuration."""
+
+    enabled: bool = False
+    github_repo: str = ""  # "owner/repo"
+    github_token_env: str = "GITHUB_TOKEN"
+
+
 class AppConfig(BaseModel):
     """Top-level application configuration."""
 
@@ -53,6 +61,7 @@ class AppConfig(BaseModel):
     filtering: FilteringConfig = FilteringConfig()
     email: EmailConfig
     llm: LLMConfig = LLMConfig()
+    feedback: FeedbackConfig = FeedbackConfig()
     language: str = Field(default="ko", description="Output language: 'ko' or 'en'")
     days_back: int = Field(default=1, ge=1, description="How many days back to search")
     special_instructions: str | None = None
@@ -119,6 +128,17 @@ class AnalyzedPaper(BaseModel):
     paper: ArxivPaper
     relevance: RelevanceScore
     analysis: PaperAnalysis
+
+
+class FeedbackEntry(BaseModel):
+    """A single parsed feedback item from a GitHub Issue."""
+
+    rating: str  # "positive" or "negative"
+    paper_title: str
+    bot_score: str = ""
+    reason: str = ""
+    issue_number: int = 0
+    created_at: str = ""
 
 
 class DigestReport(BaseModel):

@@ -41,3 +41,8 @@ def get_smtp_password() -> str:
     if not password:
         raise RuntimeError("SMTP_PASSWORD environment variable is not set")
     return password
+
+
+def get_github_token(env_var: str = "GITHUB_TOKEN") -> str | None:
+    """Return GitHub token from env, or None if not set (optional)."""
+    return os.environ.get(env_var) or None
