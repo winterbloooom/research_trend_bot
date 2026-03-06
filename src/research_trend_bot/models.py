@@ -97,6 +97,10 @@ class PaperAnalysis(BaseModel):
     arxiv_id: str
     title: str
     authors: list[str]
+    affiliations: list[str] = Field(
+        default_factory=list,
+        description="Institutional affiliations of the authors",
+    )
     keywords: list[str]
     task: str = Field(description="What task/problem does this paper address?")
     problem_and_motivation: str

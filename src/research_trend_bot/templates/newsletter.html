@@ -59,6 +59,11 @@
                             {{ item.analysis.authors[:3]|join(', ') }}{% if item.analysis.authors|length > 3 %} et al.{% endif %}
                             &middot; {{ item.paper.published.strftime('%Y-%m-%d') }}
                           </p>
+                          {% if item.analysis.affiliations %}
+                          <p style="margin:2px 0 0;font-size:11px;color:#aaa;">
+                            {{ item.analysis.affiliations|join(', ') }}
+                          </p>
+                          {% endif %}
                         </td>
                         <td width="50" style="vertical-align:top;text-align:right;">
                           <span style="display:inline-block;background-color:{% if item.relevance.score >= 8 %}#4caf50{% elif item.relevance.score >= 6 %}#ff9800{% else %}#9e9e9e{% endif %};color:#fff;font-size:14px;font-weight:700;padding:4px 10px;border-radius:12px;">

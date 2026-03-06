@@ -42,6 +42,7 @@ For each field:
 - "arxiv_id": the paper's arxiv ID (from the PDF header)
 - "title": exact paper title
 - "authors": list of author names
+- "affiliations": list of unique institutional affiliations (e.g., ["Google DeepMind", "MIT"])
 - "keywords": 3-7 key technical terms or concepts
 - "task": what task or problem does this paper address? (1 sentence)
 - "problem_and_motivation": what problem exists and why does it matter? (2-3 bullets)

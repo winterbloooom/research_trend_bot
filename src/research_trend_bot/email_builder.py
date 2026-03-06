@@ -62,6 +62,7 @@ def _build_plain_text(report: DigestReport) -> str:
         lines.extend([
             f"[{item.relevance.score}/10] {a.title}",
             f"Authors: {', '.join(a.authors[:3])}{'...' if len(a.authors) > 3 else ''}",
+            f"Affiliations: {', '.join(a.affiliations)}" if a.affiliations else "",
             f"Keywords: {', '.join(a.keywords)}",
             "",
             f"Task: {a.task}",
