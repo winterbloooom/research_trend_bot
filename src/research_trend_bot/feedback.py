@@ -35,13 +35,23 @@ def _github_headers(token: str) -> dict[str, str]:
 def _parse_issue_body(body: str) -> dict[str, str]:
     """Parse structured fields from issue body.
 
-    Expected format:
-        **Rating**: positive
-        **Paper**: Some Paper Title
-        **Bot Score**: 8
-        **Reason**: ...
+    Supports two formats:
+      - Issue Form output:  ### Label\n\nValue\n
+      - Legacy body:        **Key**: value
     """
     fields: dict[str, str] = {}
+
+    # Try Issue Form format first: ### Label\n\nValue
+    form_matches = list(
+        re.finditer(r"### (\w[\w\s]*?)\n\n(.+?)(?=\n###|\Z)", body, re.DOTALL)
+    )
+    if form_matches:
+        for match in form_matches:
+            key = match.group(1).strip().lower().replace(" ", "_")
+            fields[key] = match.group(2).strip()
+        return fields
+
+    # Fallback: legacy **Key**: value format
     for match in re.finditer(
         r"\*\*(\w[\w\s]*?)\*\*:\s*(.+?)(?=\n\*\*|\Z)", body, re.DOTALL
     ):
@@ -149,35 +159,24 @@ def build_feedback_urls(
     paper = item.paper  # type: ignore[attr-defined]
     relevance = item.relevance  # type: ignore[attr-defined]
 
-    title_encoded = quote(paper.title)
     arxiv_id = paper.arxiv_id
     score = relevance.score
 
-    body_template = (
-        "**Rating**: {rating}\n"
-        "**Paper**: {title}\n"
-        "**ArXiv ID**: {arxiv_id}\n"
-        "**Bot Score**: {score}\n"
-        "**Reason**: \n"
-    )
-
     urls: dict[str, str] = {}
-    for rating, label_extra in [("positive", "positive"), ("negative", "negative")]:
-        body = body_template.format(
-            rating=rating,
-            title=paper.title,
-            arxiv_id=arxiv_id,
-            score=score,
-        )
-        body_encoded = quote(body)
-        labels = quote(f"feedback,{label_extra}")
+    for rating in ("positive", "negative"):
+        template = f"feedback_{rating}.yml"
         issue_title = quote(f"[{rating}] {paper.title}")
+        paper_encoded = quote(paper.title)
+        arxiv_encoded = quote(arxiv_id)
+        score_encoded = quote(str(score))
 
         urls[rating] = (
             f"https://github.com/{github_repo}/issues/new"
-            f"?title={issue_title}"
-            f"&body={body_encoded}"
-            f"&labels={labels}"
+            f"?template={template}"
+            f"&title={issue_title}"
+            f"&paper={paper_encoded}"
+            f"&arxiv_id={arxiv_encoded}"
+            f"&bot_score={score_encoded}"
         )
 
     return urls

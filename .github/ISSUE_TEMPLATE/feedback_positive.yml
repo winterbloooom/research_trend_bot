@@ -1,0 +1,27 @@
+name: "\U0001f44d Positive Feedback"
+description: "Mark a paper as relevant"
+labels: [feedback, positive]
+body:
+  - type: input
+    id: paper
+    attributes: { label: Paper }
+  - type: input
+    id: arxiv_id
+    attributes: { label: ArXiv ID }
+  - type: input
+    id: bot_score
+    attributes: { label: Bot Score }
+  - type: dropdown
+    id: reason
+    attributes:
+      label: Reason
+      options:
+        - Relevant to my research interests
+        - Useful suggestions for applying to my work
+        - Clear and high-quality summary
+        - Other
+    validations: { required: true }
+  - type: textarea
+    id: comment
+    attributes: { label: Additional comments (optional) }
+    validations: { required: false }

@@ -22,7 +22,7 @@ arxiv API          Gemini Flash-Lite         Gemini Flash           SMTP
 └────────┘         └──────────┘         └───────────┘         └───────┘
      │                  │                                         │
      │  adaptive        │  keyword pre-filter               👍/👎 buttons
-     │  days_back       │  + batch scoring (25/batch)       (GitHub Issue URLs)
+     │  days_back       │  + batch scoring (25/batch)       (Issue Form w/ reason dropdown)
      │  (1→3→5→7)       │  + 429 retry w/ backoff
 ```
 
@@ -41,7 +41,7 @@ arxiv API          Gemini Flash-Lite         Gemini Flash           SMTP
 - **Two-stage LLM pipeline** — fast scoring to filter, then deep PDF analysis on top papers only
 - **Keyword pre-filter** — local substring matching before LLM calls to save API quota
 - **Adaptive date window** — auto-expands `days_back` (1 → 3 → 5 → 7) when no papers found (e.g., weekends)
-- **Feedback loop** — opt-in thumbs up/down buttons in emails collect feedback via GitHub Issues; recent feedback and LLM-generated summaries are injected into scoring/analysis prompts to improve future recommendations
+- **Feedback loop** — opt-in thumbs up/down buttons in emails collect feedback via GitHub Issue Form templates with structured reason dropdowns; recent feedback and LLM-generated summaries are injected into scoring/analysis prompts to improve future recommendations
 - **Special instructions** — per-interest and global free-text instructions injected into LLM prompts
 - **Multi-language** — output in Korean (`ko`, default) or English (`en`), with technical terms kept in English
 - **Bullet-point format** — analysis results use concise bullet points, rendered as `<ul>` in email

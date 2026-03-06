@@ -38,6 +38,9 @@ src/research_trend_bot/
     feedback_summary.py  # Feedback summarization prompt
 config.example.yaml
 feedback_summary.json                        # LLM-generated feedback summary (auto-updated)
+.github/ISSUE_TEMPLATE/
+  feedback_positive.yml                      # Issue Form: thumbs-up with reason dropdown
+  feedback_negative.yml                      # Issue Form: thumbs-down with reason dropdown
 .github/workflows/daily_digest.yml           # GitHub Actions cron (weekdays KST 11:00 / UTC 02:00)
 .github/workflows/feedback_summary.yml       # Biweekly feedback summary (1st & 15th, UTC 03:00)
 ```
@@ -77,5 +80,6 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 - `config.yaml` is gitignored; `config.example.yaml` is committed
 - The `email_builder.py` `bulletize` Jinja2 filter converts `"- "` prefixed lines to `<ul><li>` HTML
 - Feedback system is fully opt-in (`feedback.enabled: false` by default) — when disabled, `feedback_context=""` is passed through scorer/analyzer with no prompt changes and no email buttons rendered
-- Feedback Issue body uses `**Key**: value` format parsed by `_parse_issue_body()` regex
+- Feedback uses GitHub Issue Form templates (`.github/ISSUE_TEMPLATE/feedback_*.yml`) with reason dropdown; `build_feedback_urls()` generates `?template=...&paper=...` query params
+- `_parse_issue_body()` supports both Issue Form format (`### Label\n\nValue`) and legacy `**Key**: value` format
 - `feedback_summary.json` is committed to repo and auto-updated by the biweekly workflow

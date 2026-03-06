@@ -1,0 +1,27 @@
+name: "\U0001f44e Negative Feedback"
+description: "Mark a paper as not relevant"
+labels: [feedback, negative]
+body:
+  - type: input
+    id: paper
+    attributes: { label: Paper }
+  - type: input
+    id: arxiv_id
+    attributes: { label: ArXiv ID }
+  - type: input
+    id: bot_score
+    attributes: { label: Bot Score }
+  - type: dropdown
+    id: reason
+    attributes:
+      label: Reason
+      options:
+        - Not relevant to my research interests
+        - Low-quality summary — missing key details or inaccurate
+        - Poor suggestions for applying to my work
+        - Other
+    validations: { required: true }
+  - type: textarea
+    id: comment
+    attributes: { label: Additional comments (optional) }
+    validations: { required: false }
