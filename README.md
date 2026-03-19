@@ -61,10 +61,14 @@ pip install -e .
 ### 2. Configure
 
 ```bash
-cp config.example.yaml config.yaml
+cp interests.example.yaml interests.yaml   # research interests (tracked in git)
+cp config.example.yaml config.yaml         # email, llm, feedback settings (gitignored)
 ```
 
-Edit `config.yaml` with your research interests, email settings, and preferences. See [Configuration](#configuration) below.
+- **`interests.yaml`** — research interests, filtering, language, days_back, special_instructions. Commit this file to track changes over time.
+- **`config.yaml`** — email, LLM, feedback settings (contains secrets, gitignored).
+
+When both files exist, `interests.yaml` fields take precedence. See [Configuration](#configuration) below.
 
 ### 3. Set secrets
 
@@ -84,6 +88,8 @@ python -m research_trend_bot.main
 
 ## Configuration
 
+**`interests.yaml`** (git-tracked):
+
 ```yaml
 research_interests:
   - name: "Video Generation × 3D Vision"
@@ -100,21 +106,25 @@ filtering:
   top_k: 5             # max papers for full analysis
   max_papers_per_interest: 50
 
-llm:
-  scoring_model: "gemini-2.5-flash-lite"
-  analysis_model: "gemini-2.5-flash"
+language: ko           # ko | en
+days_back: 1           # auto-expands up to 7 if no papers found
 
+# Global instruction applied to all scoring/analysis
+special_instructions: "Prioritize papers from reputable institutions."
+```
+
+**`config.yaml`** (gitignored):
+
+```yaml
 email:
   smtp_host: "smtp.gmail.com"
   smtp_port: 587
   sender_address: "you@gmail.com"
   recipients: ["you@gmail.com"]
 
-language: ko           # ko | en
-days_back: 1           # auto-expands up to 7 if no papers found
-
-# Global instruction applied to all scoring/analysis
-special_instructions: "Prioritize papers from reputable institutions."
+llm:
+  scoring_model: "gemini-2.5-flash-lite"
+  analysis_model: "gemini-2.5-flash"
 
 # Optional: GitHub Issue-based feedback (disabled by default)
 feedback:
@@ -145,7 +155,7 @@ Two workflows are included:
 | `daily_digest.yml` | Weekdays KST 11:00 (UTC 02:00) | Run the full digest pipeline |
 | `feedback_summary.yml` | 1st & 15th of each month (UTC 03:00) | Summarize feedback + close old issues |
 
-**Required secrets**: `GEMINI_API_KEY`, `SMTP_PASSWORD`, `CONFIG_YAML`
+**Required secrets**: `GEMINI_API_KEY`, `SMTP_PASSWORD`, `CONFIG_YAML` (email/llm/feedback settings only — interests are read from `interests.yaml` in the repo)
 
 **Optional secrets**: `GITHUB_TOKEN` (needed only if feedback is enabled)
 
