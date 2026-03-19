@@ -1,0 +1,111 @@
+research_interests:
+  - name: "AI-Assisted Game Creation"
+    keywords:
+      - "user generated content"
+      - "UGC"
+      - "game modding"
+      - "game creation"
+      - "co-creation"
+      - "text-to-game"
+      - "mixed-initiative"
+      - "co-creative"
+      - "level editor"
+      - "human-in-the-loop"
+      - "copilot"
+      - "AI-assisted design"
+    arxiv_categories:
+      - "cs.AI"
+      - "cs.HC"
+      - "cs.GR"
+      - "cs.LG"
+
+  - name: "PCG & Evaluation"
+    keywords:
+      - "procedural content generation"
+      - "PCGML"
+      - "PCG"
+      - "level generation"
+      - "level design"
+      - "game rule generation"
+      - "controllable generation"
+      - "constraint-aware generation"
+      - "generation benchmark"
+      - "generation evaluation"
+      - "controllability"
+      - "playability"
+      - "quality diversity"
+    arxiv_categories:
+      - "cs.AI"
+      - "cs.LG"
+      - "cs.GR"
+
+  - name: "LLM Game Authoring & Agents"
+    keywords:
+      - "game generation"
+      - "game authoring"
+      - "game agent"
+      - "code generation"
+      - "game engine"
+      - "natural language editing"
+      - "LLM game"
+      - "multi-agent game"
+      - "agentic game creation"
+    arxiv_categories:
+      - "cs.AI"
+      - "cs.SE"
+      - "cs.CL"
+      - "cs.GR"
+
+  - name: "3D Asset Generation"
+    keywords:
+      - "text-to-3D"
+      - "3D generation"
+      - "3D asset"
+      - "mesh generation"
+      - "texture generation"
+      - "retexturing"
+      - "PBR"
+      - "3D reconstruction"
+      - "controllable 3D"
+    arxiv_categories:
+      - "cs.CV"
+      - "cs.GR"
+      - "cs.AI"
+
+  - name: "Narrative & Worldbuilding"
+    keywords:
+      - "narrative generation"
+      - "quest generation"
+      - "interactive storytelling"
+      - "interactive fiction"
+      - "worldbuilding"
+      - "procedural narrative"
+      - "dialogue generation"
+      - "story generation"
+    arxiv_categories:
+      - "cs.AI"
+      - "cs.CL"
+      - "cs.GR"
+
+  - name: "AI Content Moderation & Safety"
+    keywords:
+      - "content moderation"
+      - "moderation"
+      - "trust and safety"
+      - "toxicity detection"
+      - "harmful content"
+      - "content filtering"
+      - "safety"
+    arxiv_categories:
+      - "cs.CY"
+      - "cs.CL"
+      - "cs.AI"
+
+filtering:
+  score_threshold: 5      # 1-10, papers below this are filtered out
+  top_k: 6                # max papers to fully analyze
+  max_papers_per_interest: 50
+
+language: ko  # ko | en
+
+days_back: 1
