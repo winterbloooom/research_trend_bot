@@ -33,6 +33,8 @@ jobs:
           CONFIG_YAML: ${{ secrets.CONFIG_YAML }}
 
       - name: Run digest pipeline
+        # interests.yaml is tracked in the repo and merged automatically.
+        # CONFIG_YAML secret only needs email, llm, and feedback settings.
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}

@@ -1,0 +1,39 @@
+# Research Interests (tracked in git for change history)
+# Copy to interests.yaml and customize.
+# These fields override config.yaml when both are present.
+
+research_interests:
+  - name: "LLM Agents"
+    keywords:
+      - "language model agent"
+      - "tool use"
+      - "function calling"
+      - "agentic"
+      - "ReAct"
+      - "chain-of-thought"
+    arxiv_categories:
+      - "cs.CL"
+      - "cs.AI"
+    # special_instructions: "이 분야를 잘 모르니 알기 쉽게 설명해줘"
+
+  - name: "Retrieval-Augmented Generation"
+    keywords:
+      - "RAG"
+      - "retrieval augmented"
+      - "dense retrieval"
+      - "knowledge grounding"
+    arxiv_categories:
+      - "cs.CL"
+      - "cs.IR"
+
+filtering:
+  score_threshold: 6      # 1-10, papers below this are filtered out
+  top_k: 5                # max papers to fully analyze
+  max_papers_per_interest: 50
+
+language: ko  # ko | en
+
+days_back: 1
+
+# Global special instructions applied to all scoring/analysis prompts (optional)
+# special_instructions: "공신력 있는 기관(Google, Meta 등)에서 나온 논문을 중심으로 분석해줘"

@@ -1,38 +1,9 @@
-# Research Trend Bot Configuration
-# Copy this file to config.yaml and customize for your use.
-
-research_interests:
-  - name: "LLM Agents"
-    keywords:
-      - "language model agent"
-      - "tool use"
-      - "function calling"
-      - "agentic"
-      - "ReAct"
-      - "chain-of-thought"
-    arxiv_categories:
-      - "cs.CL"
-      - "cs.AI"
-    # special_instructions: "이 분야를 잘 모르니 알기 쉽게 설명해줘"
-
-  - name: "Retrieval-Augmented Generation"
-    keywords:
-      - "RAG"
-      - "retrieval augmented"
-      - "dense retrieval"
-      - "knowledge grounding"
-    arxiv_categories:
-      - "cs.CL"
-      - "cs.IR"
-
-filtering:
-  score_threshold: 6      # 1-10, papers below this are filtered out
-  top_k: 5                # max papers to fully analyze
-  max_papers_per_interest: 50
-
-llm:
-  scoring_model: "gemini-2.5-flash-lite"
-  analysis_model: "gemini-2.5-flash"
+# Research Trend Bot Configuration (secrets & deployment settings)
+# Copy this file to config.yaml and customize.
+#
+# Research interests are now tracked separately in interests.yaml
+# (see interests.example.yaml). If interests.yaml exists, its fields
+# take precedence over any duplicates here.
 
 email:
   smtp_host: "smtp.gmail.com"
@@ -42,15 +13,12 @@ email:
   recipients:
     - "you@gmail.com"
 
-language: ko  # ko | en
-
-# Global special instructions applied to all scoring/analysis prompts (optional)
-# special_instructions: "공신력 있는 기관(Google, Meta 등)에서 나온 논문을 중심으로 분석해줘"
+llm:
+  scoring_model: "gemini-2.5-flash-lite"
+  analysis_model: "gemini-2.5-flash"
 
 # Feedback: collect thumbs up/down via GitHub Issues (optional)
 # feedback:
 #   enabled: true
 #   github_repo: "owner/repo"      # GitHub repo for feedback issues
 #   github_token_env: "GITHUB_TOKEN"  # env var name for GitHub token
-
-days_back: 1

@@ -137,6 +137,7 @@ class FeedbackEntry(BaseModel):
     paper_title: str
     bot_score: str = ""
     reason: str = ""
+    interest: str = ""  # research interest active when feedback was given
     issue_number: int = 0
     created_at: str = ""
 

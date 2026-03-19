@@ -36,7 +36,9 @@ src/research_trend_bot/
     scoring.py     # Scoring system/user prompts
     analysis.py    # Analysis system/user prompts
     feedback_summary.py  # Feedback summarization prompt
-config.example.yaml
+interests.yaml                               # Tracked research interests (git history for changes)
+interests.example.yaml
+config.example.yaml                          # Secrets/deployment settings template
 feedback_summary.json                        # LLM-generated feedback summary (auto-updated)
 .github/ISSUE_TEMPLATE/
   feedback_positive.yml                      # Issue Form: thumbs-up with reason dropdown
@@ -58,12 +60,16 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 
 ## Configuration
 
-- **Config**: `config.yaml` (gitignored) — copy from `config.example.yaml`
+- **Interests**: `interests.yaml` (git-tracked) — research interests, filtering, language, days_back, special_instructions. Copy from `interests.example.yaml`. Changes are tracked via git history.
+- **Config**: `config.yaml` (gitignored) — email, llm, feedback settings. Copy from `config.example.yaml`.
+- `load_config()` merges both files: `interests.yaml` fields override `config.yaml` when present.
 - **Secrets**: `.env` file with `GEMINI_API_KEY`, `SMTP_PASSWORD`, and optionally `GITHUB_TOKEN`
 - Two levels of `special_instructions`: per-interest and global
 - `language`: `"ko"` (Korean, default) or `"en"`
 - `days_back` auto-expands up to 7 if no papers found (e.g., weekends)
 - **Feedback** (opt-in): `feedback.enabled: true` + `feedback.github_repo: "owner/repo"` — collects thumbs up/down via GitHub Issues; disabled by default with zero impact on existing behavior
+- Feedback URLs include `interest` param to record which interests were active when feedback was given
+- `feedback_summary.json` includes `active_interests` list for context tracking
 
 ## Testing rules
 
@@ -77,7 +83,7 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 - Scorer has built-in 429 retry that respects Gemini's `retryDelay`
 - Analyzer passes raw PDF bytes to Gemini via `Part.from_bytes()` — PDFs >20 MB or >30 pages are skipped
 - `PdfReader` requires `io.BytesIO()` wrapper around raw bytes
-- `config.yaml` is gitignored; `config.example.yaml` is committed
+- `interests.yaml` is git-tracked; `config.yaml` is gitignored. `load_config()` merges both (interests.yaml wins).
 - The `email_builder.py` `bulletize` Jinja2 filter converts `"- "` prefixed lines to `<ul><li>` HTML
 - Feedback system is fully opt-in (`feedback.enabled: false` by default) — when disabled, `feedback_context=""` is passed through scorer/analyzer with no prompt changes and no email buttons rendered
 - Feedback uses GitHub Issue Form templates (`.github/ISSUE_TEMPLATE/feedback_*.yml`) with reason dropdown; `build_feedback_urls()` generates `?template=...&paper=...` query params

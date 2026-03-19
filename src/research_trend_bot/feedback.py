@@ -96,6 +96,7 @@ def load_recent_feedback(
             paper_title=fields.get("paper", issue.get("title", "")),
             bot_score=fields.get("bot_score", ""),
             reason=fields.get("reason", ""),
+            interest=fields.get("interest", fields.get("matched_interest", "")),
             issue_number=issue.get("number", 0),
             created_at=issue.get("created_at", ""),
         )
@@ -140,27 +141,30 @@ def format_feedback_context(
             emoji = "\U0001f44d" if entry.rating == "positive" else "\U0001f44e"
             score_info = f" ({entry.bot_score})" if entry.bot_score else ""
             reason_info = f" | {entry.reason}" if entry.reason else ""
+            interest_info = f" [interest: {entry.interest}]" if entry.interest else ""
             parts.append(
-                f"- {emoji} \"{entry.paper_title}\"{score_info}{reason_info}"
+                f"- {emoji} \"{entry.paper_title}\"{score_info}{reason_info}{interest_info}"
             )
 
     return "\n".join(parts)
 
 
 def build_feedback_urls(
-    github_repo: str, item: object
+    github_repo: str, item: object, interest_names: list[str] | None = None
 ) -> dict[str, str]:
     """Build GitHub Issue creation URLs for thumbs up/down feedback.
 
     Args:
         github_repo: "owner/repo" string
         item: AnalyzedPaper with .paper.arxiv_id, .paper.title, .relevance.score
+        interest_names: Active research interest names for tracking context.
     """
     paper = item.paper  # type: ignore[attr-defined]
     relevance = item.relevance  # type: ignore[attr-defined]
 
     arxiv_id = paper.arxiv_id
     score = relevance.score
+    interest_str = ", ".join(interest_names) if interest_names else ""
 
     urls: dict[str, str] = {}
     for rating in ("positive", "negative"):
@@ -169,6 +173,7 @@ def build_feedback_urls(
         paper_encoded = quote(paper.title)
         arxiv_encoded = quote(arxiv_id)
         score_encoded = quote(str(score))
+        interest_encoded = quote(interest_str)
 
         urls[rating] = (
             f"https://github.com/{github_repo}/issues/new"
@@ -177,6 +182,7 @@ def build_feedback_urls(
             f"&paper={paper_encoded}"
             f"&arxiv_id={arxiv_encoded}"
             f"&bot_score={score_encoded}"
+            f"&interest={interest_encoded}"
         )
 
     return urls
@@ -228,6 +234,7 @@ def summarize_and_cleanup(
                 paper_title=fields.get("paper", issue.get("title", "")),
                 bot_score=fields.get("bot_score", ""),
                 reason=fields.get("reason", ""),
+                interest=fields.get("interest", fields.get("matched_interest", "")),
                 issue_number=issue.get("number", 0),
                 created_at=issue.get("created_at", ""),
             )
@@ -236,6 +243,7 @@ def summarize_and_cleanup(
     # Build summarization prompt
     feedback_text = "\n".join(
         f"- [{e.rating}] \"{e.paper_title}\" (score={e.bot_score}) {e.reason}"
+        + (f" [interest: {e.interest}]" if e.interest else "")
         for e in entries
     )
     prompt = build_summary_prompt(feedback_text, language=config.language)
@@ -254,6 +262,7 @@ def summarize_and_cleanup(
         "summary": summary_text,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "total_entries": len(entries),
+        "active_interests": [i.name for i in config.research_interests],
     }
     FEEDBACK_SUMMARY_PATH.write_text(json.dumps(summary_data, ensure_ascii=False, indent=2))
     logger.info("Feedback summary saved (%d entries)", len(entries))

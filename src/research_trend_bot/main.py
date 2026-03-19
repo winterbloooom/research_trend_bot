@@ -84,10 +84,11 @@ def run(config_path: str) -> None:
     # Build per-paper feedback URLs if enabled
     feedback_urls: dict[str, dict[str, str]] | None = None
     if config.feedback.enabled and config.feedback.github_repo:
+        interest_names = [i.name for i in config.research_interests]
         feedback_urls = {}
         for item in analyzed:
             feedback_urls[item.paper.arxiv_id] = build_feedback_urls(
-                config.feedback.github_repo, item
+                config.feedback.github_repo, item, interest_names=interest_names
             )
 
     html_body, plain_body = build_email(report, feedback_urls=feedback_urls)

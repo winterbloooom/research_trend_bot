@@ -21,6 +21,9 @@ body:
         - Poor suggestions for applying to my work
         - Other
     validations: { required: true }
+  - type: input
+    id: interest
+    attributes: { label: Matched Interest }
   - type: textarea
     id: comment
     attributes: { label: Additional comments (optional) }
