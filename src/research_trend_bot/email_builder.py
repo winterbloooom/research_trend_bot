@@ -17,6 +17,11 @@ logger = logging.getLogger(__name__)
 _TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
 
 
+def _md_inline(text: str) -> str:
+    """Convert Markdown **bold** to <strong> in already-escaped HTML text."""
+    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
+
+
 def _bulletize(text: str) -> Markup:
     """Convert bullet-point text to an HTML <ul> list.
 
@@ -34,14 +39,14 @@ def _bulletize(text: str) -> Markup:
         for line in lines:
             content = line[2:] if line.startswith("- ") else line
             items.append(
-                f'<li style="margin-bottom:3px;">{escape(content)}</li>'
+                f'<li style="margin-bottom:3px;">{_md_inline(str(escape(content)))}</li>'
             )
         return Markup(
             '<ul style="margin:4px 0 0;padding-left:18px;font-size:13px;'
             f'color:#333;line-height:1.6;">{"".join(items)}</ul>'
         )
 
-    escaped_lines = [str(escape(line)) for line in lines]
+    escaped_lines = [_md_inline(str(escape(line))) for line in lines]
     return Markup(
         '<p style="margin:4px 0 0;font-size:13px;color:#333;line-height:1.5;">'
         f'{"<br>".join(escaped_lines)}</p>'
