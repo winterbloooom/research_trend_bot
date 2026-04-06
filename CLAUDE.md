@@ -9,7 +9,7 @@ Automated research paper digest bot — fetches arxiv papers, scores relevance w
 python -m research_trend_bot.main              # uses config.yaml
 python -m research_trend_bot.main config.yaml  # explicit path
 
-# Run biweekly feedback summarization
+# Run weekly feedback summarization
 python -m research_trend_bot.feedback_cli config.yaml
 
 # Install in dev mode
@@ -44,7 +44,7 @@ feedback_summary.json                        # LLM-generated feedback summary (a
   feedback_positive.yml                      # Issue Form: thumbs-up with reason dropdown
   feedback_negative.yml                      # Issue Form: thumbs-down with reason dropdown
 .github/workflows/daily_digest.yml           # GitHub Actions cron (weekdays KST 11:00 / UTC 02:00)
-.github/workflows/feedback_summary.yml       # Biweekly feedback summary (1st & 15th, UTC 03:00)
+.github/workflows/feedback_summary.yml       # Weekly feedback summary (Mon UTC 03:00)
 ```
 
 ## Key dependencies
@@ -88,4 +88,4 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 - Feedback system is fully opt-in (`feedback.enabled: false` by default) — when disabled, `feedback_context=""` is passed through scorer/analyzer with no prompt changes and no email buttons rendered
 - Feedback uses GitHub Issue Form templates (`.github/ISSUE_TEMPLATE/feedback_*.yml`) with reason dropdown; `build_feedback_urls()` generates `?template=...&paper=...` query params
 - `_parse_issue_body()` supports both Issue Form format (`### Label\n\nValue`) and legacy `**Key**: value` format
-- `feedback_summary.json` is committed to repo and auto-updated by the biweekly workflow
+- `feedback_summary.json` is committed to repo and auto-updated by the weekly workflow
