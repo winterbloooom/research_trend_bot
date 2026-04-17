@@ -1,4 +1,4 @@
-"""Fetch papers from arxiv by category and date range."""
+"""Fetch papers from arxiv + Hugging Face and merge into a single deduped list."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ from datetime import datetime, timedelta, timezone
 
 import arxiv
 
+from research_trend_bot.hf_fetcher import fetch_hf_papers
 from research_trend_bot.models import AppConfig, ArxivPaper
 
 logger = logging.getLogger(__name__)
@@ -38,8 +39,8 @@ def _result_to_paper(result: arxiv.Result) -> ArxivPaper:
 MAX_DAYS_BACK = 7
 
 
-def _fetch_with_days_back(config: AppConfig, days_back: int) -> list[ArxivPaper]:
-    """Fetch papers for all research interests with a specific days_back window."""
+def _fetch_arxiv_with_days_back(config: AppConfig, days_back: int) -> list[ArxivPaper]:
+    """Fetch arxiv papers for all research interests with a specific days_back window."""
     now = datetime.now(timezone.utc)
     start_date = now - timedelta(days=days_back)
     end_date = now
@@ -77,18 +78,63 @@ def _fetch_with_days_back(config: AppConfig, days_back: int) -> list[ArxivPaper]
 
         logger.info("Fetched %d new papers for '%s'", count, interest.name)
 
-    logger.info("Total unique papers fetched: %d (days_back=%d)", len(papers), days_back)
+    logger.info("Total unique arxiv papers fetched: %d (days_back=%d)", len(papers), days_back)
     return papers
 
 
+def _merge_and_dedupe(
+    arxiv_papers: list[ArxivPaper], hf_papers: list[ArxivPaper]
+) -> list[ArxivPaper]:
+    """Merge arxiv + HF papers, deduplicating by arxiv_id.
+
+    When a paper appears in both sources, the arxiv entry wins (it carries
+    richer metadata — categories, published/updated timestamps from the arxiv
+    API) but its ``source`` is upgraded to "both" to signal the HF overlap.
+    HF-only papers (arxiv IDs not returned by the category queries) are
+    appended as-is with ``source="huggingface"``.
+    """
+    by_id: dict[str, ArxivPaper] = {}
+
+    for paper in arxiv_papers:
+        by_id[paper.arxiv_id] = paper
+
+    overlap = 0
+    hf_only = 0
+    for paper in hf_papers:
+        existing = by_id.get(paper.arxiv_id)
+        if existing is None:
+            by_id[paper.arxiv_id] = paper
+            hf_only += 1
+        else:
+            if existing.source != "both":
+                by_id[paper.arxiv_id] = existing.model_copy(update={"source": "both"})
+            overlap += 1
+
+    logger.info(
+        "Merged papers: %d total (arxiv=%d, hf_only=%d, overlap=%d)",
+        len(by_id),
+        len(arxiv_papers),
+        hf_only,
+        overlap,
+    )
+    return list(by_id.values())
+
+
 def fetch_papers(config: AppConfig) -> list[ArxivPaper]:
-    """Fetch papers, expanding the date window up to MAX_DAYS_BACK if none found."""
+    """Fetch papers from all configured sources, expanding the date window up
+    to MAX_DAYS_BACK if nothing is found.
+
+    Merges arxiv (category-based) and Hugging Face daily_papers (curated)
+    results, deduplicating by arxiv_id.
+    """
     days_back = config.days_back
 
     while days_back <= MAX_DAYS_BACK:
-        papers = _fetch_with_days_back(config, days_back)
-        if papers:
-            return papers
+        arxiv_papers = _fetch_arxiv_with_days_back(config, days_back)
+        hf_papers = fetch_hf_papers(config, days_back)
+        merged = _merge_and_dedupe(arxiv_papers, hf_papers)
+        if merged:
+            return merged
 
         next_days = min(days_back + 2, MAX_DAYS_BACK + 1)
         if next_days > MAX_DAYS_BACK:

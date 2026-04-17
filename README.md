@@ -1,6 +1,6 @@
 # Research Trend Bot
 
-Automated daily digest of arxiv papers tailored to your research interests. Fetches recent papers, scores relevance with Gemini, analyzes top papers from their full PDFs, and delivers a structured email newsletter.
+Automated daily digest of research papers tailored to your interests. Fetches recent papers from **arXiv** and **Hugging Face daily_papers** (merged + deduped), scores relevance with Gemini, analyzes top papers from their full PDFs, and delivers a structured email newsletter.
 
 ## Pipeline Flow
 
@@ -13,7 +13,7 @@ Automated daily digest of arxiv papers tailored to your research interests. Fetc
                      └────────┬────────┘
                               │ feedback_context
                               ▼
-arxiv API          Gemini Flash-Lite         Gemini Flash           SMTP
+arxiv + HF         Gemini Flash-Lite         Gemini Flash           SMTP
    │                     │                       │                   │
    ▼                     ▼                       ▼                   ▼
 ┌────────┐  papers  ┌──────────┐  scored  ┌───────────┐  report  ┌───────┐
@@ -21,16 +21,18 @@ arxiv API          Gemini Flash-Lite         Gemini Flash           SMTP
 │ Papers │         │ Abstracts│         │ Full PDFs │         │ Build │──▶ Send
 └────────┘         └──────────┘         └───────────┘         └───────┘
      │                  │                                         │
-     │  adaptive        │  keyword pre-filter               👍/👎 buttons
-     │  days_back       │  + batch scoring (25/batch)       (Issue Form w/ reason dropdown)
-     │  (1→3→5→7)       │  + 429 retry w/ backoff
+     │  merge + dedupe  │  keyword pre-filter               👍/👎 buttons
+     │  by arxiv_id     │  + batch scoring (25/batch)       (Issue Form w/ reason dropdown)
+     │  adaptive        │  + 429 retry w/ backoff
+     │  days_back
+     │  (1→3→5→7)
 ```
 
 ### Stage Details
 
 | Stage | Model | Input | Output |
 |-------|-------|-------|--------|
-| **Fetch** | — | arxiv categories + date range | `ArxivPaper` list (deduplicated) |
+| **Fetch** | — | arxiv categories + HF `daily_papers` + date range | `ArxivPaper` list, deduped by `arxiv_id` (overlap tagged `source="both"`) |
 | **Pre-filter** | — | keyword matching on title + abstract | reduced paper list (~30% drop) |
 | **Score** | `gemini-2.5-flash-lite` | abstracts in batches of 25 | relevance scores 1-10 |
 | **Analyze** | `gemini-2.5-flash` | full PDF per paper | structured analysis (bullet-point) |
@@ -38,6 +40,7 @@ arxiv API          Gemini Flash-Lite         Gemini Flash           SMTP
 
 ## Features
 
+- **Dual paper sources** — arxiv category search + Hugging Face `daily_papers` (community-curated). Merged and deduped by `arxiv_id`; overlaps are tagged `source="both"` and shown with a badge in the email
 - **Two-stage LLM pipeline** — fast scoring to filter, then deep PDF analysis on top papers only
 - **Keyword pre-filter** — local substring matching before LLM calls to save API quota
 - **Adaptive date window** — auto-expands `days_back` (1 → 3 → 5 → 7) when no papers found (e.g., weekends)
@@ -60,15 +63,12 @@ pip install -e .
 
 ### 2. Configure
 
-```bash
-cp interests.example.yaml interests.yaml   # research interests (tracked in git)
-cp config.example.yaml config.yaml         # email, llm, feedback settings (gitignored)
-```
+Create two YAML files in the repo root (see [Configuration](#configuration) below for the schema):
 
 - **`interests.yaml`** — research interests, filtering, language, days_back, special_instructions. Commit this file to track changes over time.
-- **`config.yaml`** — email, LLM, feedback settings (contains secrets, gitignored).
+- **`config.yaml`** — email, LLM, feedback settings (gitignored; may reference secrets).
 
-When both files exist, `interests.yaml` fields take precedence. See [Configuration](#configuration) below.
+When both files exist, `interests.yaml` fields take precedence.
 
 ### 3. Set secrets
 
@@ -131,6 +131,12 @@ feedback:
   enabled: true
   github_repo: "owner/repo"
   github_token_env: "GITHUB_TOKEN"
+
+# Optional: Hugging Face daily_papers source (enabled by default)
+huggingface:
+  enabled: true
+  limit: 100       # max HF papers to consider per run
+  max_pages: 10    # pagination safety guard
 ```
 
 ### Key options
@@ -145,6 +151,9 @@ feedback:
 | `feedback.enabled` | Enable GitHub Issue feedback buttons in email | `false` |
 | `feedback.github_repo` | GitHub repo for feedback issues (`"owner/repo"`) | `""` |
 | `feedback.github_token_env` | Env var name for GitHub token | `"GITHUB_TOKEN"` |
+| `huggingface.enabled` | Fetch from Hugging Face `daily_papers` in addition to arXiv | `true` |
+| `huggingface.limit` | Max HF papers to consider per run | `100` |
+| `huggingface.max_pages` | HF API pagination safety guard | `10` |
 
 ## GitHub Actions
 

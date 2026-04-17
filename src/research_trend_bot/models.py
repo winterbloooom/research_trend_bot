@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -54,6 +55,18 @@ class FeedbackConfig(BaseModel):
     github_token_env: str = "GITHUB_TOKEN"
 
 
+class HuggingFaceConfig(BaseModel):
+    """Hugging Face daily_papers fetcher configuration."""
+
+    enabled: bool = True
+    limit: int = Field(
+        default=100, ge=1, description="Max HF papers to consider per run"
+    )
+    max_pages: int = Field(
+        default=10, ge=1, description="Pagination safety guard for HF API"
+    )
+
+
 class AppConfig(BaseModel):
     """Top-level application configuration."""
 
@@ -62,6 +75,7 @@ class AppConfig(BaseModel):
     email: EmailConfig
     llm: LLMConfig = LLMConfig()
     feedback: FeedbackConfig = FeedbackConfig()
+    huggingface: HuggingFaceConfig = HuggingFaceConfig()
     language: str = Field(default="ko", description="Output language: 'ko' or 'en'")
     days_back: int = Field(default=1, ge=1, description="How many days back to search")
     special_instructions: str | None = None
@@ -71,7 +85,7 @@ class AppConfig(BaseModel):
 
 
 class ArxivPaper(BaseModel):
-    """Metadata for a paper fetched from arxiv."""
+    """Metadata for a paper fetched from arxiv (or cross-referenced from HF)."""
 
     arxiv_id: str
     title: str
@@ -82,6 +96,7 @@ class ArxivPaper(BaseModel):
     updated: datetime
     pdf_url: str
     abs_url: str
+    source: Literal["arxiv", "huggingface", "both"] = "arxiv"
 
 
 class RelevanceScore(BaseModel):

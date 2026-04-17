@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Automated research paper digest bot — fetches arxiv papers, scores relevance with Gemini, analyzes top papers via PDF, and emails a structured digest.
+Automated research paper digest bot — fetches papers from arxiv + Hugging Face daily_papers, scores relevance with Gemini, analyzes top papers via PDF, and emails a structured digest.
 
 ## Quick commands
 
@@ -23,7 +23,8 @@ src/research_trend_bot/
   main.py          # Pipeline orchestrator (fetch → score → analyze → email)
   config.py        # YAML config loader + env secret helpers
   models.py        # Pydantic models (config + pipeline data)
-  fetcher.py       # arXiv API paper fetching with adaptive days_back
+  fetcher.py       # Top-level fetch orchestrator: arxiv + HF merge/dedupe, adaptive days_back
+  hf_fetcher.py    # Hugging Face daily_papers source (maps HF items → ArxivPaper via arxiv_id)
   scorer.py        # Stage 1: batch abstract scoring via Gemini (with keyword pre-filter)
   analyzer.py      # Stage 2: full PDF analysis via Gemini
   email_builder.py # Jinja2 HTML + plain-text email builder
@@ -37,8 +38,7 @@ src/research_trend_bot/
     analysis.py    # Analysis system/user prompts
     feedback_summary.py  # Feedback summarization prompt
 interests.yaml                               # Tracked research interests (git history for changes)
-interests.example.yaml
-config.example.yaml                          # Secrets/deployment settings template
+config.yaml                                  # Email, LLM, feedback settings (gitignored)
 feedback_summary.json                        # LLM-generated feedback summary (auto-updated)
 .github/ISSUE_TEMPLATE/
   feedback_positive.yml                      # Issue Form: thumbs-up with reason dropdown
@@ -60,8 +60,8 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 
 ## Configuration
 
-- **Interests**: `interests.yaml` (git-tracked) — research interests, filtering, language, days_back, special_instructions. Copy from `interests.example.yaml`. Changes are tracked via git history.
-- **Config**: `config.yaml` (gitignored) — email, llm, feedback settings. Copy from `config.example.yaml`.
+- **Interests**: `interests.yaml` (git-tracked) — research interests, filtering, language, days_back, special_instructions. Changes are tracked via git history.
+- **Config**: `config.yaml` (gitignored) — email, llm, feedback settings.
 - `load_config()` merges both files: `interests.yaml` fields override `config.yaml` when present.
 - **Secrets**: `.env` file with `GEMINI_API_KEY`, `SMTP_PASSWORD`, and optionally `GITHUB_TOKEN`
 - Two levels of `special_instructions`: per-interest and global
@@ -78,6 +78,8 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 
 ## Important notes
 
+- Papers come from two sources: arxiv category search + HF `daily_papers`. They're merged and deduped by `arxiv_id` in `fetcher.py::_merge_and_dedupe`; when a paper appears in both, `source` is set to `"both"` and the arxiv entry (richer metadata) is kept.
+- HF items without an arxiv-formatted ID are skipped in `hf_fetcher.py` — the analyzer needs an arxiv PDF URL. HF fetch failures are swallowed (logged) so the pipeline can continue with arxiv-only results.
 - Scorer uses keyword pre-filter before LLM calls to save API quota
 - Scorer batch size is 25 (not 10) — optimized for free-tier rate limits
 - Scorer has built-in 429 retry that respects Gemini's `retryDelay`
