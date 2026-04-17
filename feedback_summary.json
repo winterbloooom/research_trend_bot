@@ -1,13 +1,13 @@
 {
-  "summary": "다음은 사용자 피드백을 기반으로 한 연구 선호도 요약입니다.\n\n- 사용자는 \"Generative World Renderer\", \"World Models\"처럼 게임 세계 생성, 3D 에셋, 내러티브 및 월드빌딩과 직접적으로 관련된 Generative AI 연구에 강한 선호도를 보입니다. 또한 게임 맥락에서 Vision-Language Models을 활용하거나 AI 시스템의 평가 및 Grounded Reasoning에 대한 연구도 긍정적으로 평가했습니다.\n- \"Augmented Reality\" (AR) 또는 \"Extended Reality\" (XR)에 특화된 연구(\"SEGAR\", \"Vibe Coding XR\"), LLM 인프라(\"Chimera\"), 의료 분야(\"MedObvious\"), LLM의 사회적 편향(\"Gendered Prompting\")에 대한 연구는 사용자 관심사와 거리가 멀다고 일관되게 평가되었습니다.\n- 시스템이 높은 점수(7-8점)를 부여한 논문들(\"SEGAR\", \"Vibe Coding XR\", \"Chimera\")이 사용자에게는 관련 없다고 평가되어, 점수와 사용자 선호도 사이에 큰 불일치가 존재합니다. 향후 추천 시 \"Generative\"와 같은 일반적인 AI 기술 키워드보다는 \"게임\", \"월드\", \"내러티브\", \"PCG\", \"3D 에셋\" 등 사용자의 핵심 연구 분야와 직접적으로 연결되는 도메인 특화 키워드의 중요도를 대폭 높여야 합니다.",
-  "generated_at": "2026-04-13T05:34:21.560749+00:00",
-  "total_entries": 9,
+  "summary": "## 사용자 선호도 분석 요약\n\n*   사용자는 \"Generative World Renderer\"와 같이 게임 내 세계 및 3D 에셋 생성에 중점을 둔 *생성형* AI 연구에 높은 관심을 보입니다. 이는 \"AI-Assisted Game Creation\", \"PCG & Evaluation\", \"3D Asset Generation\" 등의 연구 관심사와 잘 부합합니다.\n*   반면, \"GlobalSplat\"과 같은 3D Gaussian Splatting 기반의 렌더링 *최적화*나 \"SEGAR\", \"Vibe Coding XR\"과 같은 XR/AR 관련 연구는 지속적으로 관련성이 낮다고 평가합니다. 이는 사용자의 3D 관심사가 게임/가상 환경의 *생성*에 있음을 시사합니다.\n*   LLM 분야에서는 \"LLM Game Authoring & Agents\"와 같이 LLM의 *게임 내 응용*에 관심이 있으며, \"Chimera\"처럼 LLM 시스템의 성능 *최적화*나 \"Gendered Prompting\"처럼 사회/윤리적 측면에 대한 연구는 선호하지 않습니다.\n*   봇은 \"GlobalSplat\" (score=8)이나 \"Vibe Coding XR\" (score=8)처럼 특정 키워드(예: 3D, AI, LLM)를 포함하는 논문에 높은 점수를 부여했지만, 사용자는 해당 논문의 구체적인 *초점*이나 *응용 분야*가 자신의 연구 관심사와 일치하지 않아 부정적인 피드백을 주었습니다.\n*   향후 추천 시스템은 단순히 키워드 일치보다는, 사용자의 \"AI-Assisted Game Creation\", \"PCG\", \"3D Asset Generation\" 등 구체적인 관심 분야 내에서 *생성형* 접근 방식과 *게임/가상 환경 응용*에 더 초점을 맞춰 추천의 정확도를 높여야 합니다. XR/AR, LLM 시스템 최적화, 렌더링 최적화 등은 제외하는 것이 좋습니다.",
+  "generated_at": "2026-04-17T05:29:52.706900+00:00",
+  "total_entries": 7,
   "active_interests": [
     "AI-Assisted Game Creation",
     "PCG & Evaluation",
-    "LLM Game Authoring & Agents",
+    "LLM Game Authoring",
     "3D Asset Generation",
-    "Narrative & Worldbuilding",
-    "AI Content Moderation & Safety"
+    "General AI Agents",
+    "Game-Playing Agents"
   ]
 }
