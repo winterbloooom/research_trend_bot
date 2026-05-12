@@ -12,6 +12,21 @@ from research_trend_bot.models import AppConfig
 logger = logging.getLogger(__name__)
 
 
+def verify_smtp_auth(config: AppConfig, smtp_password: str) -> None:
+    """Connect and authenticate without sending, to fail fast before LLM calls."""
+    email_cfg = config.email
+    logger.info(
+        "Verifying SMTP auth on %s:%d as %s",
+        email_cfg.smtp_host,
+        email_cfg.smtp_port,
+        email_cfg.sender_address,
+    )
+    with smtplib.SMTP(email_cfg.smtp_host, email_cfg.smtp_port) as server:
+        server.starttls()
+        server.login(email_cfg.sender_address, smtp_password)
+    logger.info("SMTP auth OK")
+
+
 def send_email(
     config: AppConfig,
     smtp_password: str,

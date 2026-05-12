@@ -21,7 +21,7 @@ from research_trend_bot.feedback import (
 from research_trend_bot.fetcher import fetch_papers
 from research_trend_bot.models import DigestReport
 from research_trend_bot.scorer import score_papers
-from research_trend_bot.sender import send_email
+from research_trend_bot.sender import send_email, verify_smtp_auth
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +35,9 @@ def run(config_path: str) -> None:
     smtp_password = get_smtp_password()
 
     client = genai.Client(api_key=api_key)
+
+    # ── Verify SMTP auth early to avoid wasting LLM quota ──
+    verify_smtp_auth(config, smtp_password)
 
     # ── Load feedback (optional) ────────────────────────
     feedback_context = ""
