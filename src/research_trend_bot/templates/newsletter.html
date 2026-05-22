@@ -171,6 +171,18 @@
           </tr>
           {% endfor %}
 
+          {% if reference_url %}
+          <!-- Reference Papers CTA -->
+          <tr>
+            <td style="padding:8px 24px 16px;text-align:center;">
+              <a href="{{ reference_url }}" style="display:inline-block;padding:9px 20px;font-size:13px;color:#3949ab;background-color:#e8eaf6;border-radius:16px;text-decoration:none;font-weight:600;">&#128204; Suggest reference papers</a>
+              <p style="margin:8px 0 0;font-size:11px;color:#999;">
+                Paste arXiv links of papers you'd like to see more of &mdash; the bot scores similar papers higher.
+              </p>
+            </td>
+          </tr>
+          {% endif %}
+
           <!-- Footer -->
           <tr>
             <td style="padding:20px 24px;border-top:1px solid #e0e0e0;text-align:center;">

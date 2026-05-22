@@ -9,11 +9,12 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote
 
+import arxiv
 import httpx
 from google import genai
 from google.genai import types
 
-from research_trend_bot.models import AppConfig, FeedbackEntry
+from research_trend_bot.models import AppConfig, FeedbackEntry, ReferencePaper
 from research_trend_bot.prompts.feedback_summary import (
     SYSTEM_PROMPT,
     build_summary_prompt,
@@ -23,6 +24,13 @@ logger = logging.getLogger(__name__)
 
 GITHUB_API = "https://api.github.com"
 FEEDBACK_SUMMARY_PATH = Path("feedback_summary.json")
+
+# Label applied by the reference-paper Issue Form template.
+REFERENCE_LABEL = "reference-paper"
+# Cap on reference papers injected into the prompt, to bound token usage.
+MAX_REFERENCE_PAPERS = 20
+# Matches modern arxiv IDs (e.g. 2401.12345) in URLs or bare text.
+_ARXIV_ID_RE = re.compile(r"\b(\d{4}\.\d{4,5})(?:v\d+)?\b")
 
 
 def _github_headers(token: str) -> dict[str, str]:
@@ -186,6 +194,128 @@ def build_feedback_urls(
         )
 
     return urls
+
+
+def build_reference_url(github_repo: str) -> str:
+    """Build the GitHub Issue URL for submitting reference papers."""
+    return (
+        f"https://github.com/{github_repo}/issues/new"
+        f"?template=feedback_reference.yml"
+    )
+
+
+def _extract_arxiv_ids(text: str) -> list[str]:
+    """Extract unique arxiv IDs from free-form text (URLs or bare IDs)."""
+    seen: list[str] = []
+    for match in _ARXIV_ID_RE.finditer(text):
+        arxiv_id = match.group(1)
+        if arxiv_id not in seen:
+            seen.append(arxiv_id)
+    return seen
+
+
+def _fetch_reference_metadata(arxiv_ids: list[str]) -> dict[str, tuple[str, str]]:
+    """Fetch title + abstract for arxiv IDs. Returns {id: (title, abstract)}."""
+    if not arxiv_ids:
+        return {}
+
+    meta: dict[str, tuple[str, str]] = {}
+    try:
+        client = arxiv.Client(delay_seconds=3, num_retries=3)
+        search = arxiv.Search(id_list=arxiv_ids)
+        for result in client.results(search):
+            arxiv_id = result.entry_id.split("/abs/")[-1].split("v")[0]
+            meta[arxiv_id] = (
+                result.title.replace("\n", " ").strip(),
+                result.summary.replace("\n", " ").strip(),
+            )
+    except Exception:
+        logger.exception("Failed to fetch arxiv metadata for reference papers")
+
+    return meta
+
+
+def load_reference_papers(config: AppConfig, token: str) -> list[ReferencePaper]:
+    """Load user-curated reference papers from open GitHub Issues.
+
+    Reads all open issues labeled ``reference-paper``, extracts arxiv IDs from
+    each body, and enriches them with title/abstract from the arxiv API.
+    """
+    repo = config.feedback.github_repo
+    url = f"{GITHUB_API}/repos/{repo}/issues"
+    params = {"labels": REFERENCE_LABEL, "state": "open", "per_page": 100}
+
+    try:
+        with httpx.Client(timeout=30) as http:
+            resp = http.get(url, headers=_github_headers(token), params=params)
+            resp.raise_for_status()
+            issues = resp.json()
+    except httpx.HTTPError:
+        logger.exception("Failed to fetch reference-paper issues from GitHub")
+        return []
+
+    # Map arxiv_id -> note (first occurrence wins).
+    id_note: dict[str, str] = {}
+    for issue in issues:
+        body = issue.get("body", "") or ""
+        fields = _parse_issue_body(body)
+        links = fields.get("paper_links", body)
+        note = fields.get("note", "")
+        if note == "_No response_":
+            note = ""
+        for arxiv_id in _extract_arxiv_ids(links):
+            id_note.setdefault(arxiv_id, note)
+
+    if not id_note:
+        return []
+
+    # Cap to bound prompt size.
+    arxiv_ids = list(id_note)[:MAX_REFERENCE_PAPERS]
+    meta = _fetch_reference_metadata(arxiv_ids)
+
+    references: list[ReferencePaper] = []
+    for arxiv_id in arxiv_ids:
+        title, abstract = meta.get(arxiv_id, ("", ""))
+        references.append(
+            ReferencePaper(
+                arxiv_id=arxiv_id,
+                title=title,
+                abstract=abstract,
+                note=id_note[arxiv_id],
+            )
+        )
+
+    logger.info("Loaded %d reference papers from GitHub", len(references))
+    return references
+
+
+def format_reference_context(references: list[ReferencePaper]) -> str:
+    """Format reference papers into a prompt-injectable context string.
+
+    Returns empty string if there are no reference papers.
+    """
+    if not references:
+        return ""
+
+    parts: list[str] = [
+        "## Reference Papers — User-Curated Highly Relevant Examples",
+        "The user explicitly picked the papers below as strong examples of what "
+        "they want recommended. Treat clear topical or methodological similarity "
+        "to any of them as a STRONG positive signal: score such papers "
+        "noticeably higher (boost by roughly 2 points). This is a heavier signal "
+        "than the keyword/category interests above.",
+    ]
+    for ref in references:
+        if ref.title:
+            parts.append(f"- \"{ref.title}\" (arXiv:{ref.arxiv_id})")
+            if ref.abstract:
+                parts.append(f"  {ref.abstract[:400]}")
+        else:
+            parts.append(f"- arXiv:{ref.arxiv_id}")
+        if ref.note:
+            parts.append(f"  User note: {ref.note}")
+
+    return "\n".join(parts)
 
 
 def summarize_and_cleanup(

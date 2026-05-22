@@ -157,6 +157,19 @@ class FeedbackEntry(BaseModel):
     created_at: str = ""
 
 
+class ReferencePaper(BaseModel):
+    """A user-curated reference paper used to calibrate relevance scoring.
+
+    Submitted via a `reference-paper` GitHub Issue; enriched with title and
+    abstract from the arxiv API so the LLM has real content to compare against.
+    """
+
+    arxiv_id: str
+    title: str = ""
+    abstract: str = ""
+    note: str = ""  # optional user explanation of why it's a good example
+
+
 class DigestReport(BaseModel):
     """Final report ready for email rendering."""
 

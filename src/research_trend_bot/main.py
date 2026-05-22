@@ -14,9 +14,12 @@ from research_trend_bot.config import get_gemini_api_key, get_github_token, get_
 from research_trend_bot.email_builder import build_email
 from research_trend_bot.feedback import (
     build_feedback_urls,
+    build_reference_url,
     format_feedback_context,
+    format_reference_context,
     load_feedback_summary,
     load_recent_feedback,
+    load_reference_papers,
 )
 from research_trend_bot.fetcher import fetch_papers
 from research_trend_bot.models import DigestReport
@@ -41,6 +44,7 @@ def run(config_path: str) -> None:
 
     # ── Load feedback (optional) ────────────────────────
     feedback_context = ""
+    reference_url = ""
     if config.feedback.enabled:
         token = get_github_token(config.feedback.github_token_env)
         if token:
@@ -48,10 +52,19 @@ def run(config_path: str) -> None:
             feedback = load_recent_feedback(config, token)
             summary = load_feedback_summary()
             feedback_context = format_feedback_context(feedback, summary)
+
+            references = load_reference_papers(config, token)
+            reference_context = format_reference_context(references)
+            if reference_context:
+                feedback_context = f"{feedback_context}\n\n{reference_context}".strip()
+
             if feedback_context:
                 logger.info("Feedback context loaded (%d chars)", len(feedback_context))
         else:
             logger.warning("Feedback enabled but GitHub token not set; skipping")
+
+        if config.feedback.github_repo:
+            reference_url = build_reference_url(config.feedback.github_repo)
 
     # ── Stage 0: Fetch papers ──────────────────────────
     logger.info("=== Stage 0: Fetching papers from arxiv ===")
@@ -94,7 +107,9 @@ def run(config_path: str) -> None:
                 config.feedback.github_repo, item, interest_names=interest_names
             )
 
-    html_body, plain_body = build_email(report, feedback_urls=feedback_urls)
+    html_body, plain_body = build_email(
+        report, feedback_urls=feedback_urls, reference_url=reference_url
+    )
     subject = f"Research Digest - {report.generated_at.strftime('%Y-%m-%d')} ({len(analyzed)} papers)"
 
     # ── Send email ─────────────────────────────────────

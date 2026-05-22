@@ -56,6 +56,7 @@ def _bulletize(text: str) -> Markup:
 def _build_plain_text(
     report: DigestReport,
     feedback_urls: dict[str, dict[str, str]] | None = None,
+    reference_url: str = "",
 ) -> str:
     """Build a plain-text fallback of the digest."""
     lines = [
@@ -103,18 +104,28 @@ def _build_plain_text(
 
         lines.extend(["-" * 60, ""])
 
+    if reference_url:
+        lines.extend([
+            "Want better recommendations? Suggest reference papers "
+            "(paste arXiv links of papers you'd like to see more of):",
+            reference_url,
+            "",
+        ])
+
     return "\n".join(lines)
 
 
 def build_email(
     report: DigestReport,
     feedback_urls: dict[str, dict[str, str]] | None = None,
+    reference_url: str = "",
 ) -> tuple[str, str]:
     """Build HTML and plain-text email bodies.
 
     Args:
         report: The digest report to render.
         feedback_urls: Optional per-paper feedback URLs keyed by arxiv_id.
+        reference_url: Optional GitHub Issue URL for submitting reference papers.
 
     Returns:
         (html_body, plain_text_body)
@@ -134,9 +145,12 @@ def build_email(
         total_scored=report.total_scored,
         papers=report.papers,
         feedback_urls=feedback_urls,
+        reference_url=reference_url,
     )
 
-    plain = _build_plain_text(report, feedback_urls=feedback_urls)
+    plain = _build_plain_text(
+        report, feedback_urls=feedback_urls, reference_url=reference_url
+    )
 
     logger.info("Email built: %d chars HTML, %d chars plain text", len(html), len(plain))
     return html, plain

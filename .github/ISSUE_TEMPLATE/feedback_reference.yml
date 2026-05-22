@@ -1,0 +1,24 @@
+name: "\U0001f4cc Reference Papers"
+description: "Share arXiv papers you'd like to see more of (calibrates relevance scoring)"
+labels: [reference-paper]
+body:
+  - type: markdown
+    attributes:
+      value: "Paste arXiv links of papers you consider highly relevant. The bot treats papers similar to these as a strong positive signal when scoring."
+  - type: textarea
+    id: paper_links
+    attributes:
+      label: Paper links
+      description: One arXiv link per line (e.g. https://arxiv.org/abs/2401.12345)
+      placeholder: |
+        https://arxiv.org/abs/2401.12345
+        https://arxiv.org/abs/2402.67890
+    validations:
+      required: true
+  - type: textarea
+    id: note
+    attributes:
+      label: Note
+      description: (Optional) Why are these good examples?
+    validations:
+      required: false

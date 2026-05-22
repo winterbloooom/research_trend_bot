@@ -43,6 +43,7 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 .github/ISSUE_TEMPLATE/
   feedback_positive.yml                      # Issue Form: thumbs-up with reason dropdown
   feedback_negative.yml                      # Issue Form: thumbs-down with reason dropdown
+  feedback_reference.yml                     # Issue Form: paste arXiv links of exemplar papers
 .github/workflows/daily_digest.yml           # GitHub Actions cron (weekdays KST 11:00 / UTC 02:00)
 .github/workflows/feedback_summary.yml       # Weekly feedback summary (Mon UTC 03:00)
 ```
@@ -89,5 +90,7 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 - The `email_builder.py` `bulletize` Jinja2 filter converts `"- "` prefixed lines to `<ul><li>` HTML
 - Feedback system is fully opt-in (`feedback.enabled: false` by default) — when disabled, `feedback_context=""` is passed through scorer/analyzer with no prompt changes and no email buttons rendered
 - Feedback uses GitHub Issue Form templates (`.github/ISSUE_TEMPLATE/feedback_*.yml`) with reason dropdown; `build_feedback_urls()` generates `?template=...&paper=...` query params
+- **Reference papers**: a global "Suggest reference papers" email button (`build_reference_url()`) opens `feedback_reference.yml` where the user pastes arXiv links. `load_reference_papers()` reads all open `reference-paper`-labeled issues (separate label, untouched by the 30-day feedback cleanup), extracts arxiv IDs (`_extract_arxiv_ids`), enriches them with title/abstract via the arxiv API, and `format_reference_context()` injects them into scorer/analyzer prompts as a strong positive signal (capped at `MAX_REFERENCE_PAPERS=20`). Reference context is concatenated into `feedback_context`, so it shares the same enabled-gating
+- Reference papers do NOT bypass the scorer keyword pre-filter — a candidate must still match an interest keyword to reach the LLM
 - `_parse_issue_body()` supports both Issue Form format (`### Label\n\nValue`) and legacy `**Key**: value` format
 - `feedback_summary.json` is committed to repo and auto-updated by the weekly workflow
