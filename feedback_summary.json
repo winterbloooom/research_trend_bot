@@ -1,6 +1,6 @@
 {
-  "summary": "사용자 피드백 분석 결과, 다음과 같은 선호도 패턴이 확인되었습니다:\n\n*   **게임 도메인 특이성 강조:** 사용자는 \"AI-Assisted Game Creation\", \"LLM Game Authoring\", \"Agentic Coding for Games\"와 같이 AI 기술이 게임 개발에 직접적으로 적용되는 논문에 높은 관심을 보입니다. 반면, 일반적인 Multimodal Generation, CAD 관련 주제, 또는 게임과 무관한 LLM 기반 코드 생성 논문은 관련성이 낮다고 평가했습니다.\n*   **'생성/저작' 대 '예측/렌더링' 구분:** 3D 관련 논문의 경우, 사용자는 \"3D Asset Generation\"과 같이 콘텐츠를 '생성'하거나 '저작'하는 측면에 초점을 맞춘 논문을 선호합니다. \"3D structure prediction\"이나 \"3D Gaussian Splatting\"과 같은 3D 예측/렌더링 기술은 높은 봇 점수에도 불구하고 실제 작업에 적용하기 어렵다고 평가되었습니다.\n*   **봇 점수와 사용자 선호도 불일치 개선 및 추천 제언:** \"GlobalSplat\" (봇 점수 8점) 및 \"Predicting 3D structure...\" (봇 점수 7점)와 같이 봇이 높은 점수를 부여했음에도 사용자가 적용 가능성이 낮다고 판단한 경우가 있었습니다. 이는 핵심 키워드 외에 해당 기술이 '게임' 도메인 내에서 '생성' 또는 '저작' 활동에 얼마나 직접적으로 기여하는지 여부를 더 중요하게 고려하여 점수를 조정해야 함을 시사합니다.",
-  "generated_at": "2026-05-18T06:47:52.980326+00:00",
+  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n-   사용자는 \"OpenGame: Open Agentic Coding for Games\"와 같이 게임 도메인에 명확하게 초점을 맞춘 Agentic Coding 관련 논문을 선호합니다. 반면, \"CAD Program Generation\"과 같이 게임과 무관한 도메인이나, 일반적인 \"Self-Evolving Multi-Agent Systems\", 게임 적용 관점이 부족한 \"Multimodal Generation\" 관련 논문은 관련성이 없다고 평가했습니다.\n-   봇의 점수와 사용자 선호도 사이에 상당한 불일치가 있습니다. 봇은 \"Predicting 3D structure\"나 \"LLM for Code Generation\"처럼 광범위하게 관련될 수 있는 주제에 대해 7점의 높은 점수를 부여했지만, 사용자는 해당 논문들이 자신의 작업에 적용하기 어렵다고 평가하며 부정적인 피드백을 주었습니다.\n-   향후 추천 시스템은 '게임' 도메인에 대한 명확한 연관성을 최우선 필터로 삼아야 합니다. 또한, 일반적인 AI 개념보다는 게임 개발에 직접적이고 실용적으로 적용 가능한 방법론이나 통찰력을 제공하는 논문에 더 높은 가중치를 부여해야 합니다.",
+  "generated_at": "2026-05-25T07:05:31.411589+00:00",
   "total_entries": 6,
   "active_interests": [
     "AI-Assisted Game Creation",
