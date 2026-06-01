@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n-   사용자는 \"OpenGame: Open Agentic Coding for Games\"와 같이 게임 도메인에 명확하게 초점을 맞춘 Agentic Coding 관련 논문을 선호합니다. 반면, \"CAD Program Generation\"과 같이 게임과 무관한 도메인이나, 일반적인 \"Self-Evolving Multi-Agent Systems\", 게임 적용 관점이 부족한 \"Multimodal Generation\" 관련 논문은 관련성이 없다고 평가했습니다.\n-   봇의 점수와 사용자 선호도 사이에 상당한 불일치가 있습니다. 봇은 \"Predicting 3D structure\"나 \"LLM for Code Generation\"처럼 광범위하게 관련될 수 있는 주제에 대해 7점의 높은 점수를 부여했지만, 사용자는 해당 논문들이 자신의 작업에 적용하기 어렵다고 평가하며 부정적인 피드백을 주었습니다.\n-   향후 추천 시스템은 '게임' 도메인에 대한 명확한 연관성을 최우선 필터로 삼아야 합니다. 또한, 일반적인 AI 개념보다는 게임 개발에 직접적이고 실용적으로 적용 가능한 방법론이나 통찰력을 제공하는 논문에 더 높은 가중치를 부여해야 합니다.",
-  "generated_at": "2026-05-25T07:05:31.411589+00:00",
-  "total_entries": 6,
+  "summary": "다음은 사용자 피드백에 대한 선호도 패턴 요약입니다.\n\n*   사용자는 게임 에이전트 및 NPC에 RL을 직접 적용하는 연구를 선호하는 반면, 일반적인 Multi-Agent Systems, 게임 제작과 직접적인 관련이 없는 Multimodal Generation, CAD와 같은 비게임 분야의 AI 기반 생성 연구는 선호하지 않습니다.\n*   봇은 게임 적용이 명확하지 않은 일반적인 AI 또는 3D 관련 주제(예: \"Self-Evolving Multi-Agent Systems\", \"Predicting 3D structure\")에 비교적 높은 점수를 부여했지만, 사용자는 이를 관련 없거나 적용하기 어렵다고 평가하여 봇 점수와 사용자 선호도 간의 불일치가 나타났습니다.\n*   향후 추천은 근본적인 기술이 광범위하게 적용 가능하더라도 게임 개발, 게임 에이전트 또는 게임 Asset Generation과 같이 명시적으로 게임 *도메인*에 초점을 맞춘 논문을 우선시해야 합니다.\n*   특히 3D 관련 논문의 경우, 일반적인 3D structure prediction보다는 게임 Asset Generation을 위한 generative 모델에 초점을 맞추고, 제안된 적용 방식이 게임 제작에 실용적인지 확인하는 것이 중요합니다.",
+  "generated_at": "2026-06-01T08:27:11.083632+00:00",
+  "total_entries": 5,
   "active_interests": [
     "AI-Assisted Game Creation",
     "PCG & Evaluation",
