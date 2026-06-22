@@ -14,6 +14,7 @@ from pydantic import BaseModel
 from research_trend_bot.models import (
     AppConfig,
     ArxivPaper,
+    ReferencePaper,
     RelevanceScore,
     ScoredPaper,
 )
@@ -22,6 +23,21 @@ from research_trend_bot.prompts.scoring import SYSTEM_PROMPT, build_scoring_prom
 logger = logging.getLogger(__name__)
 
 BATCH_SIZE = 25
+
+# Generic words stripped when deriving pre-filter keywords from reference paper
+# titles, so the extra keywords stay specific instead of matching everything.
+_TITLE_STOPWORDS = frozenset(
+    {
+        "with", "from", "this", "that", "using", "via", "toward", "towards",
+        "based", "approach", "approaches", "method", "methods", "framework",
+        "frameworks", "model", "models", "learning", "novel", "study", "studies",
+        "analysis", "scalable", "efficient", "robust", "general", "generation",
+        "system", "systems", "network", "networks", "data", "task", "tasks",
+        "deep", "large", "small", "high", "evaluation", "benchmark", "survey",
+        "paper", "results", "performance", "improving", "improved", "into",
+        "your", "like", "ideal", "candidate", "long-term", "augmenting",
+    }
+)
 
 
 class ScoringResponse(BaseModel):
@@ -98,16 +114,38 @@ def _score_batch(
         return []
 
 
+def _reference_keywords(references: list[ReferencePaper]) -> list[str]:
+    """Derive extra pre-filter keywords from reference paper titles.
+
+    Reference papers are the user's strongest relevance signal, so candidates
+    that share specific vocabulary with them should survive the keyword
+    pre-filter even when they don't match a configured interest keyword. Only
+    specific (>=4 char, non-stopword) title tokens are used to keep the filter
+    from passing everything.
+    """
+    terms: set[str] = set()
+    for ref in references:
+        for token in re.findall(r"[a-zA-Z][a-zA-Z0-9-]{3,}", ref.title.lower()):
+            if token not in _TITLE_STOPWORDS:
+                terms.add(token)
+    return sorted(terms)
+
+
 def _keyword_prefilter(
-    config: AppConfig, papers: list[ArxivPaper]
+    config: AppConfig,
+    papers: list[ArxivPaper],
+    extra_keywords: list[str] | None = None,
 ) -> list[ArxivPaper]:
     """Pre-filter papers that contain at least one keyword in title or abstract.
 
-    This avoids wasting LLM calls on clearly irrelevant papers.
+    This avoids wasting LLM calls on clearly irrelevant papers. ``extra_keywords``
+    (e.g. terms from user reference papers) broaden what survives the filter.
     """
     all_keywords: list[str] = []
     for interest in config.research_interests:
         all_keywords.extend(kw.lower() for kw in interest.keywords)
+    if extra_keywords:
+        all_keywords.extend(extra_keywords)
 
     filtered: list[ArxivPaper] = []
     for paper in papers:
@@ -132,12 +170,19 @@ def score_papers(
     config: AppConfig,
     papers: list[ArxivPaper],
     feedback_context: str = "",
+    reference_papers: list[ReferencePaper] | None = None,
 ) -> list[ScoredPaper]:
     """Score all papers in batches and return those above threshold, sorted by score."""
     if not papers:
         return []
 
-    papers = _keyword_prefilter(config, papers)
+    extra_keywords = _reference_keywords(reference_papers) if reference_papers else None
+    if extra_keywords:
+        logger.info(
+            "Reference papers contribute %d extra pre-filter keywords",
+            len(extra_keywords),
+        )
+    papers = _keyword_prefilter(config, papers, extra_keywords=extra_keywords)
     if not papers:
         return []
 

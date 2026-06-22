@@ -27,6 +27,9 @@ FEEDBACK_SUMMARY_PATH = Path("feedback_summary.json")
 
 # Label applied by the reference-paper Issue Form template.
 REFERENCE_LABEL = "reference-paper"
+# First field label emitted in the reference Issue Form body. Used as a
+# fallback detector so a missing label can't silently drop a submission.
+_REFERENCE_BODY_MARKER = "### Paper links"
 # Cap on reference papers injected into the prompt, to bound token usage.
 MAX_REFERENCE_PAPERS = 20
 # Matches modern arxiv IDs (e.g. 2401.12345) in URLs or bare text.
@@ -235,25 +238,46 @@ def _fetch_reference_metadata(arxiv_ids: list[str]) -> dict[str, tuple[str, str]
     return meta
 
 
-def load_reference_papers(config: AppConfig, token: str) -> list[ReferencePaper]:
-    """Load user-curated reference papers from open GitHub Issues.
+def _is_reference_issue(issue: dict) -> bool:
+    """Return True if an issue is a reference-paper submission.
 
-    Reads all open issues labeled ``reference-paper``, extracts arxiv IDs from
-    each body, and enriches them with title/abstract from the arxiv API.
+    The primary signal is the ``reference-paper`` label. As a fallback we detect
+    the Issue Form body marker, because GitHub only auto-applies a template label
+    if it already exists in the repo — a missing label would otherwise silently
+    drop the submission from both the reference loader and the feedback summary.
     """
-    repo = config.feedback.github_repo
-    url = f"{GITHUB_API}/repos/{repo}/issues"
-    params = {"labels": REFERENCE_LABEL, "state": "open", "per_page": 100}
+    labels = [l["name"] for l in issue.get("labels", [])]
+    if REFERENCE_LABEL in labels:
+        return True
+    if "feedback" in labels:
+        return False  # a thumbs up/down issue is never a reference submission
+    return _REFERENCE_BODY_MARKER in (issue.get("body") or "")
 
-    try:
-        with httpx.Client(timeout=30) as http:
+
+def _fetch_open_issues(repo: str, token: str) -> list[dict]:
+    """Fetch all open issues for a repo (paginated)."""
+    issues: list[dict] = []
+    page = 1
+    with httpx.Client(timeout=30) as http:
+        while True:
+            url = f"{GITHUB_API}/repos/{repo}/issues"
+            params = {"state": "open", "per_page": 100, "page": page}
             resp = http.get(url, headers=_github_headers(token), params=params)
             resp.raise_for_status()
-            issues = resp.json()
-    except httpx.HTTPError:
-        logger.exception("Failed to fetch reference-paper issues from GitHub")
-        return []
+            batch = resp.json()
+            if not batch:
+                break
+            issues.extend(batch)
+            page += 1
+    return issues
 
+
+def _references_from_issues(issues: list[dict]) -> list[ReferencePaper]:
+    """Build ReferencePaper list from already-fetched reference-paper issues.
+
+    Extracts arxiv IDs from each body and enriches them with title/abstract
+    from the arxiv API (capped at MAX_REFERENCE_PAPERS).
+    """
     # Map arxiv_id -> note (first occurrence wins).
     id_note: dict[str, str] = {}
     for issue in issues:
@@ -284,7 +308,29 @@ def load_reference_papers(config: AppConfig, token: str) -> list[ReferencePaper]
                 note=id_note[arxiv_id],
             )
         )
+    return references
 
+
+def load_reference_papers(config: AppConfig, token: str) -> list[ReferencePaper]:
+    """Load user-curated reference papers from open GitHub Issues.
+
+    Reads all open reference-paper issues (by label, with a body-marker
+    fallback), extracts arxiv IDs from each body, and enriches them with
+    title/abstract from the arxiv API.
+    """
+    repo = config.feedback.github_repo
+
+    # Fetch all open issues (paginated) rather than filtering by label
+    # server-side: a missing label would hide submissions, so membership is
+    # decided client-side by _is_reference_issue (label or body marker).
+    try:
+        issues = _fetch_open_issues(repo, token)
+    except httpx.HTTPError:
+        logger.exception("Failed to fetch reference-paper issues from GitHub")
+        return []
+
+    ref_issues = [i for i in issues if _is_reference_issue(i)]
+    references = _references_from_issues(ref_issues)
     logger.info("Loaded %d reference papers from GitHub", len(references))
     return references
 
@@ -298,12 +344,15 @@ def format_reference_context(references: list[ReferencePaper]) -> str:
         return ""
 
     parts: list[str] = [
-        "## Reference Papers — User-Curated Highly Relevant Examples",
-        "The user explicitly picked the papers below as strong examples of what "
-        "they want recommended. Treat clear topical or methodological similarity "
-        "to any of them as a STRONG positive signal: score such papers "
-        "noticeably higher (boost by roughly 2 points). This is a heavier signal "
-        "than the keyword/category interests above.",
+        "## Reference Papers — User-Curated Gold-Standard Examples (HIGHEST PRIORITY)",
+        "The user explicitly hand-picked the papers below as the clearest "
+        "examples of what they want recommended. This is the SINGLE STRONGEST "
+        "relevance signal — it outweighs the keyword/category interests above. "
+        "When a candidate shows clear topical or methodological similarity to any "
+        "reference paper, treat it as highly relevant: boost its score by roughly "
+        "3 points and do not score it below 8. Even partial or emerging "
+        "similarity (shared problem, technique, or domain) should pull the score "
+        "up by at least 1-2 points. Err on the side of recommending such papers.",
     ]
     for ref in references:
         if ref.title:
@@ -323,37 +372,24 @@ def summarize_and_cleanup(
     client: genai.Client,
     token: str,
 ) -> None:
-    """Summarize all open feedback, save summary, and close old issues."""
+    """Summarize all open feedback + reference papers, save summary, close old issues."""
     repo = config.feedback.github_repo
 
-    # Collect all open feedback issues
-    all_issues: list[dict] = []
-    page = 1
-    while True:
-        url = f"{GITHUB_API}/repos/{repo}/issues"
-        params = {
-            "labels": "feedback",
-            "state": "open",
-            "per_page": 100,
-            "page": page,
-        }
-        with httpx.Client(timeout=30) as http:
-            resp = http.get(url, headers=_github_headers(token), params=params)
-            resp.raise_for_status()
-            issues = resp.json()
+    # Fetch all open issues once, then partition into thumbs feedback and
+    # user-curated reference-paper submissions (both feed the summary).
+    all_issues = _fetch_open_issues(repo, token)
+    feedback_issues = [
+        i for i in all_issues if "feedback" in [l["name"] for l in i.get("labels", [])]
+    ]
+    reference_issues = [i for i in all_issues if _is_reference_issue(i)]
 
-        if not issues:
-            break
-        all_issues.extend(issues)
-        page += 1
-
-    if not all_issues:
-        logger.info("No open feedback issues to summarize")
+    if not feedback_issues and not reference_issues:
+        logger.info("No open feedback or reference issues to summarize")
         return
 
-    # Parse all entries for summarization
+    # Parse thumbs up/down entries.
     entries: list[FeedbackEntry] = []
-    for issue in all_issues:
+    for issue in feedback_issues:
         labels = [l["name"] for l in issue.get("labels", [])]
         body = issue.get("body", "") or ""
         fields = _parse_issue_body(body)
@@ -370,13 +406,23 @@ def summarize_and_cleanup(
             )
         )
 
+    # Enrich reference papers (title/abstract) for the summary prompt.
+    references = _references_from_issues(reference_issues)
+
     # Build summarization prompt
     feedback_text = "\n".join(
         f"- [{e.rating}] \"{e.paper_title}\" (score={e.bot_score}) {e.reason}"
         + (f" [interest: {e.interest}]" if e.interest else "")
         for e in entries
+    ) or "(none)"
+    reference_text = "\n".join(
+        f"- \"{r.title or r.arxiv_id}\" (arXiv:{r.arxiv_id})"
+        + (f" — {r.note}" if r.note else "")
+        for r in references
     )
-    prompt = build_summary_prompt(feedback_text, language=config.language)
+    prompt = build_summary_prompt(
+        feedback_text, reference_text=reference_text, language=config.language
+    )
 
     response = client.models.generate_content(
         model=config.llm.analysis_model,
@@ -392,16 +438,23 @@ def summarize_and_cleanup(
         "summary": summary_text,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "total_entries": len(entries),
+        "total_references": len(references),
         "active_interests": [i.name for i in config.research_interests],
     }
     FEEDBACK_SUMMARY_PATH.write_text(json.dumps(summary_data, ensure_ascii=False, indent=2))
-    logger.info("Feedback summary saved (%d entries)", len(entries))
+    logger.info(
+        "Feedback summary saved (%d feedback entries, %d reference papers)",
+        len(entries),
+        len(references),
+    )
 
-    # Close issues older than 30 days
+    # Close feedback AND reference issues older than 30 days. Reference issues
+    # are folded into the summary above before being closed, so their signal
+    # persists via feedback_summary.json even after the direct boost expires.
     cutoff = datetime.now(timezone.utc) - timedelta(days=30)
     closed = 0
     with httpx.Client(timeout=30) as http:
-        for issue in all_issues:
+        for issue in feedback_issues + reference_issues:
             created = datetime.fromisoformat(
                 issue["created_at"].replace("Z", "+00:00")
             )
@@ -415,4 +468,4 @@ def summarize_and_cleanup(
                 if resp.is_success:
                     closed += 1
 
-    logger.info("Closed %d feedback issues older than 30 days", closed)
+    logger.info("Closed %d feedback/reference issues older than 30 days", closed)

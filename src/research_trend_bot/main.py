@@ -45,6 +45,7 @@ def run(config_path: str) -> None:
     # ── Load feedback (optional) ────────────────────────
     feedback_context = ""
     reference_url = ""
+    references: list = []
     if config.feedback.enabled:
         token = get_github_token(config.feedback.github_token_env)
         if token:
@@ -75,7 +76,13 @@ def run(config_path: str) -> None:
 
     # ── Stage 1: Score abstracts ───────────────────────
     logger.info("=== Stage 1: Scoring %d abstracts ===", len(papers))
-    scored = score_papers(client, config, papers, feedback_context=feedback_context)
+    scored = score_papers(
+        client,
+        config,
+        papers,
+        feedback_context=feedback_context,
+        reference_papers=references,
+    )
     if not scored:
         logger.info("No papers above relevance threshold. Skipping email.")
         return

@@ -170,6 +170,24 @@ class ReferencePaper(BaseModel):
     note: str = ""  # optional user explanation of why it's a good example
 
 
+class InterestsProposal(BaseModel):
+    """LLM-proposed incremental update to the tracked research interests.
+
+    Produced by the weekly interests-tuning step from accumulated feedback and
+    reference papers; applied as a reviewable pull request, never silently.
+    """
+
+    changed: bool = Field(
+        description="True only if a well-justified change to the interests is warranted"
+    )
+    research_interests: list[ResearchInterest] = Field(
+        description="The COMPLETE proposed interest list (not a diff)"
+    )
+    rationale: str = Field(
+        description="Short explanation of what changed and why, citing the signals"
+    )
+
+
 class DigestReport(BaseModel):
     """Final report ready for email rendering."""
 

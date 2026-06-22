@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
 
 jobs:
   summarize:
@@ -47,3 +48,10 @@ jobs:
             git diff --cached --quiet || git commit -m "Update feedback summary [skip ci]"
             git push
           fi
+
+      - name: Propose interests update (PR + email)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: python -m research_trend_bot.interests_cli config.yaml

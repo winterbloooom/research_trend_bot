@@ -14,23 +14,37 @@ _LANGUAGE_INSTRUCTIONS = {
 }
 
 
-def build_summary_prompt(feedback_text: str, language: str = "ko") -> str:
+def build_summary_prompt(
+    feedback_text: str, reference_text: str = "", language: str = "ko"
+) -> str:
     """Build prompt for summarizing feedback patterns.
 
     Args:
-        feedback_text: Formatted feedback entries.
+        feedback_text: Formatted thumbs up/down feedback entries.
+        reference_text: Formatted user-curated reference papers (optional).
         language: Output language code ('ko' or 'en').
     """
     lang_instruction = _LANGUAGE_INSTRUCTIONS.get(language, _LANGUAGE_INSTRUCTIONS["en"])
 
+    reference_section = ""
+    if reference_text:
+        reference_section = f"""
+
+## User-Curated Reference Papers (Gold-Standard Examples)
+The user explicitly hand-picked these papers as exactly the kind of work they \
+want recommended. Treat them as the STRONGEST positive signal — weight them \
+more heavily than the thumbs up/down feedback when inferring preferences.
+{reference_text}"""
+
     return f"""\
 ## User Feedback on Recommended Papers
-{feedback_text}
+{feedback_text}{reference_section}
 
 ## Instructions
 {lang_instruction}
 
 Analyze the feedback patterns and produce a concise summary (3-5 bullet points, each starting with "- "). Focus on:
+- The topics/methods exemplified by the user-curated reference papers (the strongest positive signal)
 - What topics/methods the user consistently finds relevant or irrelevant
 - Any gap between bot scores and user preferences
 - Actionable insights for improving future scoring
