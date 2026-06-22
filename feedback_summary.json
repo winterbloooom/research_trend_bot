@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n- 사용자는 'Game Agents' 및 'RL Policies'와 같이 게임 플레이 에이전트 및 게임 맥락에 직접적으로 관련된 논문에 강한 긍정적 반응을 보였습니다. 반면, 'LiDAR', 'Robots', 'CAD', 일반적인 'Planning' 시스템, 비게임 관련 'Multimodal Generation' 또는 '3D structure prediction' 등 게임 도메인과 관련 없는 주제에는 일관되게 부정적인 반응을 보였습니다.\n- 시스템은 사용자가 '관련 없음'으로 평가한 논문('LLM-Based Assistance System', 'Multi-Agent Systems', '3D structure prediction' 등)에 6~7점의 중간 점수를 자주 부여했습니다. 이는 시스템의 점수 부여 메커니즘이 사용자의 특정 게임 도메인 선호도를 충분히 반영하지 못하고 있음을 시사합니다.\n- 향후 추천에서는 'AI-Assisted Game Creation', 'LLM Game Authoring', '3D Asset Generation', 'Game-Playing Agents'와 같이 사용자가 명시한 게임 관련 키워드 및 응용 분야에 대한 가중치를 크게 높여야 합니다. 또한, 'Robotics', 'CAD', 일반적인 'Planning' 등 게임과 무관한 도메인의 논문은 낮은 점수를 부여하거나 추천에서 적극적으로 제외해야 합니다.",
-  "generated_at": "2026-06-15T08:49:48.858205+00:00",
-  "total_entries": 8,
+  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다:\n\n*   사용자는 AI 및 강화 학습(RL)이 게임 에이전트, NPC, 또는 게임 플레이에 직접 적용되는 연구를 명확히 선호합니다.\n*   로봇 공학, LiDAR 기반 4D Scene Synthesis, 또는 게임 맥락이 없는 일반적인 LLM 기반 시스템 및 Multi-Agent Systems 관련 논문은 일관되게 관련성이 없다고 평가되었습니다.\n*   긍정적인 피드백을 받은 논문에는 높은 점수(9점)가 부여되었으나, 관련성이 없는 여러 논문에도 중간 수준의 점수(6-7점)가 부여되어, 시스템이 사용자의 특정 도메인(게임) 선호를 충분히 반영하지 못하고 있음을 보여줍니다.\n*   향후 추천 시, \"게임\"이라는 명시적인 맥락에서 AI 에이전트, LLM, 또는 자산 생성 기술을 다루는 논문에 가중치를 부여하고, 로봇 공학이나 비게임 관련 일반 AI 시스템 논문은 적극적으로 배제해야 합니다.",
+  "generated_at": "2026-06-22T08:42:33.449871+00:00",
+  "total_entries": 5,
   "active_interests": [
     "AI-Assisted Game Creation",
     "PCG & Evaluation",
