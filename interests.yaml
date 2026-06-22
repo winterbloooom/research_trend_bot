@@ -1,136 +1,136 @@
 research_interests:
-  - name: "AI-Assisted Game Creation"
-    keywords:
-      - "user generated content"
-      - "UGC"
-      - "game modding"
-      - "game creation"
-      - "co-creation"
-      - "text-to-game"
-      - "mixed-initiative"
-      - "co-creative"
-      - "level editor"
-      - "human-in-the-loop"
-      - "copilot"
-      - "AI-assisted design"
-    arxiv_categories:
-      - "cs.AI"
-      - "cs.HC"
-      - "cs.GR"
-      - "cs.LG"
-
-  - name: "PCG & Evaluation"
-    keywords:
-      - "procedural content generation"
-      - "PCGML"
-      - "PCG"
-      - "level generation"
-      - "level design"
-      - "game rule generation"
-      - "controllable generation"
-      - "constraint-aware generation"
-      - "generation benchmark"
-      - "generation evaluation"
-      - "controllability"
-      - "playability"
-      - "quality diversity"
-      - "world generation"
-      - "open world"
-      - "map generation"
-      - "terrain generation"
-      - "environment generation"
-      - "dungeon generation"
-      - "scene generation"
-      - "game world"
-    arxiv_categories:
-      - "cs.AI"
-      - "cs.LG"
-      - "cs.GR"
-
-  - name: "LLM Game Authoring"
-    keywords:
-      - "game generation"
-      - "game authoring"
-      - "code generation"
-      - "game engine"
-      - "natural language editing"
-      - "LLM game"
-    arxiv_categories:
-      - "cs.AI"
-      - "cs.SE"
-      - "cs.CL"
-      - "cs.GR"
-
-  - name: "3D Asset Generation"
-    keywords:
-      - "text-to-3D"
-      - "3D generation"
-      - "3D asset"
-      - "mesh generation"
-      - "texture generation"
-      - "retexturing"
-      - "PBR"
-      - "3D reconstruction"
-      - "controllable 3D"
-    arxiv_categories:
-      - "cs.CV"
-      - "cs.GR"
-      - "cs.AI"
-
-  - name: "General AI Agents"
-    keywords:
-      - "LLM agent"
-      - "autonomous agent"
-      - "agentic AI"
-      - "agent framework"
-      - "tool use"
-      - "function calling"
-      - "planning"
-      - "multi-step reasoning"
-      - "agent memory"
-      - "web agent"
-      - "browser agent"
-      - "computer use"
-      - "GUI agent"
-      - "embodied agent"
-      - "multi-agent system"
-      - "agent benchmark"
-      - "self-improving agent"
-      - "world model"
-    arxiv_categories:
-      - "cs.AI"
-      - "cs.LG"
-      - "cs.CL"
-      - "cs.MA"
-
-  - name: "Game-Playing Agents"
-    keywords:
-      - "game-playing agent"
-      - "game agent"
-      - "NPC"
-      - "video game AI"
-      - "Minecraft agent"
-      - "Atari"
-      - "StarCraft"
-      - "general game playing"
-      - "open-ended agent"
-      - "game environment"
-      - "game benchmark"
-      - "playtesting agent"
-      - "game bot"
-      - "interactive fiction agent"
-      - "sandbox agent"
-      - "reinforcement learning agent"
-    arxiv_categories:
-      - "cs.AI"
-      - "cs.LG"
-      - "cs.MA"
-
+- name: AI-Assisted Game Creation
+  keywords:
+  - user generated content
+  - UGC
+  - game modding
+  - game creation
+  - co-creation
+  - text-to-game
+  - mixed-initiative
+  - co-creative
+  - level editor
+  - human-in-the-loop
+  - copilot
+  - AI-assisted design
+  arxiv_categories:
+  - cs.AI
+  - cs.HC
+  - cs.GR
+  - cs.LG
+- name: PCG & Evaluation
+  keywords:
+  - procedural content generation
+  - PCGML
+  - PCG
+  - level generation
+  - level design
+  - game rule generation
+  - controllable generation
+  - constraint-aware generation
+  - generation benchmark
+  - generation evaluation
+  - controllability
+  - playability
+  - quality diversity
+  - world generation
+  - open world
+  - map generation
+  - terrain generation
+  - environment generation
+  - dungeon generation
+  - scene generation
+  - game world
+  arxiv_categories:
+  - cs.AI
+  - cs.LG
+  - cs.GR
+- name: LLM Game Authoring
+  keywords:
+  - game generation
+  - game authoring
+  - code generation
+  - game engine
+  - natural language editing
+  - LLM game
+  arxiv_categories:
+  - cs.AI
+  - cs.SE
+  - cs.CL
+  - cs.GR
+- name: 3D Asset Generation
+  keywords:
+  - text-to-3D
+  - 3D generation
+  - 3D asset
+  - mesh generation
+  - texture generation
+  - retexturing
+  - PBR
+  - 3D reconstruction
+  - controllable 3D
+  arxiv_categories:
+  - cs.CV
+  - cs.GR
+  - cs.AI
+  special_instructions: Exclude LiDAR-based 3D reconstruction or scene synthesis.
+- name: General AI Agents
+  keywords:
+  - LLM agent
+  - autonomous agent
+  - agentic AI
+  - agent framework
+  - tool use
+  - function calling
+  - planning
+  - multi-step reasoning
+  - agent memory
+  - web agent
+  - browser agent
+  - computer use
+  - GUI agent
+  - embodied agent
+  - multi-agent system
+  - agent benchmark
+  - self-improving agent
+  - world model
+  arxiv_categories:
+  - cs.AI
+  - cs.LG
+  - cs.CL
+  - cs.MA
+  special_instructions: Exclude non-game applications, especially general robotics,
+    web agents, or enterprise LLM assistants.
+- name: Game-Playing Agents
+  keywords:
+  - game-playing agent
+  - game agent
+  - NPC
+  - video game AI
+  - Minecraft agent
+  - Atari
+  - StarCraft
+  - general game playing
+  - open-ended agent
+  - game environment
+  - game benchmark
+  - playtesting agent
+  - game bot
+  - interactive fiction agent
+  - sandbox agent
+  - reinforcement learning agent
+  - strategic reasoning
+  - agent societies
+  - life simulation
+  - FPS
+  - game world model
+  arxiv_categories:
+  - cs.AI
+  - cs.LG
+  - cs.MA
 filtering:
-  score_threshold: 5      # 1-10, papers below this are filtered out
-  top_k: 6                # max papers to fully analyze
+  score_threshold: 5
+  top_k: 6
   max_papers_per_interest: 50
-
-language: ko  # ko | en
-
+language: ko
 days_back: 1
