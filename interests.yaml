@@ -96,7 +96,7 @@ research_interests:
   - cs.CL
   - cs.MA
   special_instructions: Mainly include AI agents operating within game environments
-    or game-like simulations. Exclude general robotics, web agents, enterprise LLM
+    or game-like simulations. Refrain general robotics, web agents, enterprise LLM
     assistants, or non-game applications of planning and world models.
 - name: Game-Playing Agents
   keywords:
