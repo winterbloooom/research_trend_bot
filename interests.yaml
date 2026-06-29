@@ -85,10 +85,6 @@ research_interests:
   - planning
   - multi-step reasoning
   - agent memory
-  - web agent
-  - browser agent
-  - computer use
-  - GUI agent
   - embodied agent
   - multi-agent system
   - agent benchmark
@@ -99,8 +95,9 @@ research_interests:
   - cs.LG
   - cs.CL
   - cs.MA
-  special_instructions: Exclude non-game applications, especially general robotics,
-    web agents, or enterprise LLM assistants.
+  special_instructions: Mainly include AI agents operating within game environments
+    or game-like simulations. Refrain general robotics, web agents, enterprise LLM
+    assistants, or non-game applications of planning and world models.
 - name: Game-Playing Agents
   keywords:
   - game-playing agent
@@ -124,6 +121,7 @@ research_interests:
   - life simulation
   - FPS
   - game world model
+  - playable environment
   arxiv_categories:
   - cs.AI
   - cs.LG
