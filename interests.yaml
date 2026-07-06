@@ -69,6 +69,8 @@ research_interests:
   - PBR
   - 3D reconstruction
   - controllable 3D
+  - 3D Part Generation
+  - Image-to-3D
   arxiv_categories:
   - cs.CV
   - cs.GR
@@ -122,6 +124,9 @@ research_interests:
   - FPS
   - game world model
   - playable environment
+  - Deep Reinforcement Learning
+  - RTS
+  - Vision-Language Model
   arxiv_categories:
   - cs.AI
   - cs.LG
