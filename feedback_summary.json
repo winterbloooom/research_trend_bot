@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백을 분석하여 도출된 선호도 패턴 요약입니다.\n\n-   사용자는 게임 AI, 특히 게임 플레이 에이전트, 절차적 콘텐츠 생성(PCG) 및 3D 에셋 생성과 관련된 논문을 강력히 선호합니다. 또한 에이전트 시스템과 게임과 유사한 환경에서의 시뮬레이션에도 관심이 많습니다.\n-   사용자는 로봇 공학, 실제 물리적 작업(예: 접기, 실제 로봇 RL), 그리고 게임 맥락을 벗어난 일반적인 LLM 응용(예: 취약점 패치, 일반 계획)에 초점을 맞춘 논문들을 일관되게 거부합니다.\n-   \"WorldSample\"(점수 9점), \"Learning to Fold\"(점수 7점), \"An LLM-Based Assistance System\"(점수 7점)과 같이 높은 점수를 받은 여러 논문이 사용자에게 관련성이 없다고 평가되었습니다. 이는 현재 점수 시스템이 응용 도메인(게임 vs. 로봇 공학/일반 AI)을 충분히 고려하지 않고 일반적인 AI 관련성이나 기술적 참신성에 과도한 비중을 두고 있음을 시사합니다.\n-   향후 추천에서는 제목, 초록 또는 키워드에 \"game\", \"agent\", \"simulation\", \"PCG\", \"3D asset generation\"과 같은 키워드가 명시적으로 포함된 논문을 우선시해야 합니다. 반대로 \"robotics\", \"LiDAR\", \"real-world deployment\", \"software engineering\"에 중점을 둔 논문은 명확한 게임 관련 응용이 없는 한 순위를 낮춰야 합니다.",
-  "generated_at": "2026-07-06T07:03:34.960226+00:00",
-  "total_entries": 6,
+  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n*   사용자는 3D 에셋 생성(예: AutoPartGen, Home3D), 시뮬레이션 및 합성 데이터 생성에 활용되는 AI 에이전트(예: Autodata, Agentopia), 그리고 게임 AI 및 게임 플레이 에이전트(예: Augmenting Game AI, RTSGameBench, SCOPE) 관련 연구를 선호합니다. 이는 사용자가 명시한 'AI-Assisted Game Creation', '3D Asset Generation', 'General AI Agents', 'Game-Playing Agents' 관심사와 정확히 일치합니다.\n*   반면, 실제 로봇 공학(Real-robot RL), 물리적 조작(Learning to Fold), 소프트웨어 보안 및 취약점 패치(Vulnerability Patching)에 초점을 맞춘 논문은 AI 방법론이 포함되어 있더라도 일관되게 관련성이 없다고 평가했습니다. 이는 사용자의 관심 분야 외의 도메인에 대한 명확한 비선호도를 보여줍니다.\n*   봇은 \"WorldSample\" (score=9)과 \"Learning to Fold\" (score=7)처럼 높은 점수를 부여했음에도 불구하고 사용자는 이를 관련 없다고 판단했습니다. 이는 봇이 일반적인 AI 방법론(예: RL, World Modelling)에 과도하게 집중하고 사용자 관심 분야(게임, 3D 에셋)에 대한 도메인 필터링이 부족했음을 시사합니다.\n*   향후 추천에서는 AI 기술의 *적용 도메인*을 최우선으로 고려해야 합니다. 특히, 게임, 3D 콘텐츠 생성, 시뮬레이션 환경 내 에이전트 연구에 집중하고, 실제 로봇 공학이나 소프트웨어 보안과 같은 비관련 도메인은 점수와 무관하게 배제해야 합니다.",
+  "generated_at": "2026-07-13T05:59:22.464637+00:00",
+  "total_entries": 3,
   "total_references": 7,
   "active_interests": [
     "AI-Assisted Game Creation",
