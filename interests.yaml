@@ -104,8 +104,11 @@ research_interests:
   - interactive fiction agent
   - StarCraft
   - RTS
+  - FPS
   - game world model
   - playable environment
+  - vision-language model for games
+  - VLM for games
   arxiv_categories:
   - cs.AI
   - cs.LG
@@ -114,7 +117,30 @@ research_interests:
     act with agency like NPCs or believable characters; and (2) games (and game-like
     simulations) used as a testbed for deep situational understanding and autonomous
     decision-making. Deprioritize papers that merely maximize score on classic RL
-    benchmarks (e.g. Atari) without agentic autonomy or situated reasoning.'
+    benchmarks (e.g. Atari) without agentic autonomy or situated reasoning. Explicitly
+    exclude papers focused on real-world robotics, autonomous driving, vehicle-to-everything
+    (V2X) communication, or other physical systems.'
+- name: 3D Asset Generation
+  keywords:
+  - 3D generation
+  - 3D asset
+  - virtual content
+  - image-to-3D
+  - text-to-3D
+  - mesh generation
+  - point cloud generation
+  - neural radiance fields
+  - NeRF
+  - part generation
+  - scene generation
+  - virtual environment generation
+  - procedural generation
+  - PCG
+  arxiv_categories:
+  - cs.GR
+  - cs.CV
+  - cs.AI
+  - cs.LG
 filtering:
   score_threshold: 5
   top_k: 6
