@@ -120,27 +120,7 @@ research_interests:
     benchmarks (e.g. Atari) without agentic autonomy or situated reasoning. Explicitly
     exclude papers focused on real-world robotics, autonomous driving, vehicle-to-everything
     (V2X) communication, or other physical systems.'
-- name: 3D Asset Generation
-  keywords:
-  - 3D generation
-  - 3D asset
-  - virtual content
-  - image-to-3D
-  - text-to-3D
-  - mesh generation
-  - point cloud generation
-  - neural radiance fields
-  - NeRF
-  - part generation
-  - scene generation
-  - virtual environment generation
-  - procedural generation
-  - PCG
-  arxiv_categories:
-  - cs.GR
-  - cs.CV
-  - cs.AI
-  - cs.LG
+
 filtering:
   score_threshold: 5
   top_k: 6
