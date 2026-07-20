@@ -1,14 +1,12 @@
 {
-  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n*   사용자는 3D 에셋 생성(예: AutoPartGen, Home3D), 시뮬레이션 및 합성 데이터 생성에 활용되는 AI 에이전트(예: Autodata, Agentopia), 그리고 게임 AI 및 게임 플레이 에이전트(예: Augmenting Game AI, RTSGameBench, SCOPE) 관련 연구를 선호합니다. 이는 사용자가 명시한 'AI-Assisted Game Creation', '3D Asset Generation', 'General AI Agents', 'Game-Playing Agents' 관심사와 정확히 일치합니다.\n*   반면, 실제 로봇 공학(Real-robot RL), 물리적 조작(Learning to Fold), 소프트웨어 보안 및 취약점 패치(Vulnerability Patching)에 초점을 맞춘 논문은 AI 방법론이 포함되어 있더라도 일관되게 관련성이 없다고 평가했습니다. 이는 사용자의 관심 분야 외의 도메인에 대한 명확한 비선호도를 보여줍니다.\n*   봇은 \"WorldSample\" (score=9)과 \"Learning to Fold\" (score=7)처럼 높은 점수를 부여했음에도 불구하고 사용자는 이를 관련 없다고 판단했습니다. 이는 봇이 일반적인 AI 방법론(예: RL, World Modelling)에 과도하게 집중하고 사용자 관심 분야(게임, 3D 에셋)에 대한 도메인 필터링이 부족했음을 시사합니다.\n*   향후 추천에서는 AI 기술의 *적용 도메인*을 최우선으로 고려해야 합니다. 특히, 게임, 3D 콘텐츠 생성, 시뮬레이션 환경 내 에이전트 연구에 집중하고, 실제 로봇 공학이나 소프트웨어 보안과 같은 비관련 도메인은 점수와 무관하게 배제해야 합니다.",
-  "generated_at": "2026-07-13T05:59:22.464637+00:00",
-  "total_entries": 3,
+  "summary": "다음은 사용자 피드백을 기반으로 한 선호도 요약입니다.\n\n- 사용자는 3D Asset Generation(특히 이미지 기반 또는 부분 생성), 게임 환경 내 AI Agents(RTS, FPS, 일반 시뮬레이션), 그리고 게임 맥락에서의 LLM/VLM 적용(전략적 추론 또는 콘텐츠 생성)에 관한 논문을 강력히 선호합니다.\n- 사용자는 로봇 공학(조작, 인지), 자율 주행, 차량 통신, 소프트웨어 보안과 같이 실제 물리 시스템이나 소프트웨어 엔지니어링에 초점을 맞춘 논문은 일관되게 관련성이 없다고 평가했습니다.\n- 현재 추천 시스템은 높은 점수(5-9점)를 부여한 논문들이 사용자에게는 완전히 관련성이 없다고 평가되는 경우가 많습니다. 이는 \"AI\", \"RL\", \"3D\", \"LLM\"과 같은 키워드만으로는 사용자의 특정 관심 분야(게임/시뮬레이션)를 정확히 파악하지 못하고 있음을 시사합니다.\n- 향후 추천 시에는 논문의 핵심 적용 도메인(게임, 시뮬레이션, 가상 환경)을 매우 중요하게 고려하고, 실제 물리 시스템이나 소프트웨어 보안 관련 주제는 가중치를 낮춰야 합니다.",
+  "generated_at": "2026-07-20T06:07:39.742411+00:00",
+  "total_entries": 5,
   "total_references": 7,
   "active_interests": [
-    "AI-Assisted Game Creation",
-    "PCG & Evaluation",
-    "LLM Game Authoring",
-    "3D Asset Generation",
-    "General AI Agents",
-    "Game-Playing Agents"
+    "Efficient & Small Language Models",
+    "LLM Post-Training & Vertical Models",
+    "LLM Agents & Agent Loops",
+    "Autonomous Game Agents & Game-as-Testbed"
   ]
 }
