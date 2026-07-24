@@ -120,6 +120,48 @@ research_interests:
     benchmarks (e.g. Atari) without agentic autonomy or situated reasoning. Explicitly
     exclude papers focused on real-world robotics, autonomous driving, vehicle-to-everything
     (V2X) communication, or other physical systems.'
+- name: Human-Centered AI & HCI for Wellbeing
+  keywords:
+  - human-computer interaction
+  - HCI
+  - human-AI interaction
+  - human-AI collaboration
+  - human-centered AI
+  - human-centered design
+  - co-design
+  - deployment study
+  - conversational agent
+  - AI companion
+  - self-disclosure
+  - mental health
+  - wellbeing
+  - well-being
+  - digital health
+  - health intervention
+  - behavior change
+  - self-tracking
+  - social support
+  - caregiver
+  - accessibility
+  - assistive technology
+  - neurodiversity
+  - autism
+  - older adults
+  - children
+  - adolescents
+  - AI in education
+  - learning support
+  - intelligent tutoring
+  - creativity support
+  - writing assistant
+  - user experience
+  arxiv_categories:
+  - cs.HC
+  - cs.CL
+  - cs.AI
+  - cs.CY
+  special_instructions: 'Focus on how technology and AI concretely help people. Prefer
+    papers that build a system and evaluate it with real users.'
 
 filtering:
   score_threshold: 5
