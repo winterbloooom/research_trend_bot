@@ -160,9 +160,34 @@ research_interests:
   - cs.CL
   - cs.AI
   - cs.CY
-  special_instructions: 'Focus on how technology and AI concretely help people. Prefer
-    papers that build a system and evaluate it with real users.'
-
+  special_instructions: Focus on how technology and AI concretely help people. Prefer
+    papers that build a system and evaluate it with real users.
+- name: 3D Asset Generation
+  keywords:
+  - 3D asset generation
+  - image-to-3D
+  - text-to-3D
+  - autoregressive 3D generation
+  - generative 3D models
+  - neural radiance fields
+  - NeRF
+  - 3D reconstruction
+  - mesh generation
+  - point cloud generation
+  - texture generation
+  - material generation
+  - 3D content creation
+  - digital content creation
+  - game asset pipeline
+  arxiv_categories:
+  - cs.GR
+  - cs.CV
+  - cs.LG
+  - cs.AI
+  special_instructions: Focus on generating digital 3D assets and content for applications
+    like games, simulations, and virtual environments. Explicitly exclude papers focused
+    on real-world 3D reconstruction for robotics, autonomous driving, medical imaging,
+    or other physical systems.
 filtering:
   score_threshold: 5
   top_k: 6
