@@ -220,7 +220,7 @@ research_interests:
 
 filtering:
   score_threshold: 5
-  top_k: 6
+  top_k: 8
   max_papers_per_interest: 50
 language: ko
 days_back: 1

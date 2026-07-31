@@ -27,7 +27,7 @@ from research_trend_bot.prompts.analysis import SYSTEM_PROMPT, build_analysis_pr
 
 logger = logging.getLogger(__name__)
 
-MAX_PDF_PAGES = 30
+MAX_PDF_PAGES = 50
 MAX_PDF_SIZE_MB = 20  # Gemini inline limit ~20MB
 
 
