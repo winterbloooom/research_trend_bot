@@ -162,6 +162,61 @@ research_interests:
   - cs.CY
   special_instructions: 'Focus on how technology and AI concretely help people. Prefer
     papers that build a system and evaluate it with real users.'
+- name: Speech & Conversational Voice LLMs
+  keywords:
+  - speech language model
+  - spoken language model
+  - speech LLM
+  - audio language model
+  - audio LLM
+  - speech-to-speech
+  - speech-text
+  - speech encoder
+  - speech tokenizer
+  - discrete speech unit
+  - neural audio codec
+  - audio codec
+  - audio understanding
+  - omni-modal
+  - speech synthesis
+  - text-to-speech
+  - voice cloning
+  - automatic speech recognition
+  - speech recognition
+  - streaming speech
+  - real-time speech
+  - spoken dialogue
+  - spoken dialog
+  - voice assistant
+  - voice agent
+  - voice interface
+  - conversational AI
+  - conversational speech
+  - full-duplex
+  - turn-taking
+  - barge-in
+  - backchannel
+  - speech instruction following
+  - spoken question answering
+  - paralinguistic
+  - prosody
+  - speech emotion
+  arxiv_categories:
+  - eess.AS
+  - cs.SD
+  - cs.CL
+  - cs.AI
+  special_instructions: 'Focus on how speech-native and voice-first LLMs are actually
+    built and operated. Two axes: (1) building — architecture (speech encoders, discrete
+    speech tokens and neural codecs, speech-text fusion, end-to-end speech-to-speech),
+    training recipes, speech data pipelines, and post-training or alignment for spoken
+    interaction; (2) operating — streaming and low-latency inference, full-duplex
+    turn-taking, barge-in and interruption handling, robustness in real conversations,
+    evaluation of deployed voice agents, and serving cost. Industry technical reports
+    on speech LLM families and production voice-agent stacks are especially valuable,
+    as are papers reporting real deployment lessons. Deprioritize narrow signal-processing
+    work such as speech enhancement, source separation, speaker verification, or incremental
+    ASR/TTS benchmark tuning that is not tied to conversational LLM systems.'
 
 filtering:
   score_threshold: 5
