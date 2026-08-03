@@ -51,6 +51,7 @@ research_interests:
   - vertical model
   - vertical LLM
   - data curation
+  - synthetic data generation
   arxiv_categories:
   - cs.CL
   - cs.LG
@@ -74,6 +75,7 @@ research_interests:
   - ReAct
   - reasoning and acting
   - world model
+  - enterprise AI agent
   arxiv_categories:
   - cs.AI
   - cs.LG
@@ -160,8 +162,8 @@ research_interests:
   - cs.CL
   - cs.AI
   - cs.CY
-  special_instructions: 'Focus on how technology and AI concretely help people. Prefer
-    papers that build a system and evaluate it with real users.'
+  special_instructions: Focus on how technology and AI concretely help people. Prefer
+    papers that build a system and evaluate it with real users.
 - name: Speech & Conversational Voice LLMs
   keywords:
   - speech language model
@@ -217,7 +219,26 @@ research_interests:
     as are papers reporting real deployment lessons. Deprioritize narrow signal-processing
     work such as speech enhancement, source separation, speaker verification, or incremental
     ASR/TTS benchmark tuning that is not tied to conversational LLM systems.'
-
+- name: Generative 3D & Synthetic Data
+  keywords:
+  - 3D generation
+  - 3D asset generation
+  - 3D part generation
+  - image-to-3D
+  - text-to-3D
+  - synthetic data generation
+  - high-quality synthetic data
+  - generative AI for 3D
+  - 3D content creation
+  - 3D reconstruction
+  - neural radiance fields
+  - NeRF
+  - gaussian splatting
+  arxiv_categories:
+  - cs.GR
+  - cs.CV
+  - cs.LG
+  - cs.AI
 filtering:
   score_threshold: 5
   top_k: 8
