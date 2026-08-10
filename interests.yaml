@@ -28,6 +28,8 @@ research_interests:
   - cs.LG
   - cs.CL
   - cs.AI
+  special_instructions: Exclude highly specialized scientific domain applications
+    (e.g., molecular binding, materials science, drug discovery).
 - name: LLM Post-Training & Vertical Models
   keywords:
   - post-training
@@ -55,6 +57,8 @@ research_interests:
   - cs.CL
   - cs.LG
   - cs.AI
+  special_instructions: Exclude highly specialized scientific domain applications
+    (e.g., molecular binding, materials science, drug discovery).
 - name: LLM Agents & Agent Loops
   keywords:
   - LLM agent
@@ -74,6 +78,9 @@ research_interests:
   - ReAct
   - reasoning and acting
   - world model
+  - enterprise agent
+  - capability scoping
+  - permission architecture
   arxiv_categories:
   - cs.AI
   - cs.LG
@@ -160,8 +167,8 @@ research_interests:
   - cs.CL
   - cs.AI
   - cs.CY
-  special_instructions: 'Focus on how technology and AI concretely help people. Prefer
-    papers that build a system and evaluate it with real users.'
+  special_instructions: Focus on how technology and AI concretely help people. Prefer
+    papers that build a system and evaluate it with real users.
 - name: Speech & Conversational Voice LLMs
   keywords:
   - speech language model
@@ -217,7 +224,6 @@ research_interests:
     as are papers reporting real deployment lessons. Deprioritize narrow signal-processing
     work such as speech enhancement, source separation, speaker verification, or incremental
     ASR/TTS benchmark tuning that is not tied to conversational LLM systems.'
-
 filtering:
   score_threshold: 5
   top_k: 8
