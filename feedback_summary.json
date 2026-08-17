@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백에 기반한 연구 논문 선호도 요약입니다:\n\n- 사용자는 \"LLM Agents\" 및 \"Human-Centered AI\" 분야, 특히 엔터프라이즈 AI 에이전트의 동적 역량 범위 지정 및 권한 아키텍처와 관련된 연구에 강한 관심을 보입니다. 이는 사용자의 \"LLM Agents & Agent Loops\" 및 \"Human-Centered AI & HCI for Wellbeing\" 관심사와 직접적으로 일치합니다.\n- LLM 자체에 대한 관심은 높지만, 분자 결합과 같은 특정 과학 도메인에 LLM을 적용한 연구는 관련성이 없다고 판단했습니다. 또한, C-V2X 통신이나 4D Radar-Camera 기반 3D 인지/로보틱스와 같이 게임 또는 LLM 에이전트와 무관한 특정 엔지니어링/컴퓨터 비전 도메인의 Multi-Agent Reinforcement Learning 연구는 일관되게 선호하지 않습니다.\n- 봇 점수가 8점 또는 9점으로 높음에도 불구하고, 사용자는 추천된 논문 중 75%를 관련성이 없다고 평가하여 봇의 키워드 매칭이 사용자의 실제 관심 도메인과 일치하지 않는 큰 격차가 있음을 보여줍니다.\n- 향후 추천에서는 LLM Agents 및 Human-Centered AI의 적용 도메인(예: 엔터프라이즈, 게임, HCI)을 더욱 세밀하게 고려해야 합니다. 단순히 LLM, Multi-Agent, 3D와 같은 키워드 일치보다는, 사용자의 명시된 관심 분야와 직접적으로 관련된 특정 응용 분야 및 맥락에 초점을 맞춰야 합니다.",
-  "generated_at": "2026-08-10T04:23:17.755900+00:00",
-  "total_entries": 4,
+  "summary": "다음은 사용자 피드백에 대한 선호도 패턴 요약입니다.\n\n- 사용자는 LLM Agents의 역량, 전이, 범위 지정 및 아키텍처에 중점을 둔 연구에 강한 선호를 보입니다. 특히 \"AI4AI at Test-Time\" 및 \"Dynamic Capability Scoping\"과 같이 LLM의 효율성, 후처리, 또는 게임 에이전트 맥락에서 에이전트 자체의 메커니즘을 다루는 논문들을 긍정적으로 평가했습니다.\n- LLM 또는 Multi-Agent 시스템을 사용하더라도, 분자 결합(화학/생물학), 차량 통신(C-V2X), 또는 일반 3D 인지(radar-camera)와 같은 특정 비관련 응용 분야에 초점을 맞춘 논문들은 일관되게 관련성이 없다고 평가되었습니다. 사용자 관심사인 \"3D Asset Generation\"이나 \"Game-Playing Agents\"가 일반 3D 인지나 비게임 Multi-Agent 시스템으로 확장되지 않습니다.\n- 봇은 높은 점수를 부여했음에도 불구하고, 사용자는 특정 응용 도메인 때문에 여러 논문을 관련 없다고 판단하여 봇 점수와 사용자 선호도 사이에 상당한 차이가 있음을 보여줍니다.\n- 향후 추천 시스템은 LLM, Multi-Agent, 3D와 같은 기술 자체보다는 해당 기술의 *응용 도메인*과 *구체적인 초점*을 더 중요하게 고려하여 추천의 정확도를 높여야 합니다.",
+  "generated_at": "2026-08-17T03:41:40.063671+00:00",
+  "total_entries": 5,
   "total_references": 0,
   "active_interests": [
     "Efficient & Small Language Models",
