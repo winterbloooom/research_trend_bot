@@ -126,7 +126,7 @@ research_interests:
     decision-making. Deprioritize papers that merely maximize score on classic RL
     benchmarks (e.g. Atari) without agentic autonomy or situated reasoning. Explicitly
     exclude papers focused on real-world robotics, autonomous driving, vehicle-to-everything
-    (V2X) communication, or other physical systems.'
+    (V2X) communication, general 3D perception, or other physical systems.'
 - name: Human-Centered AI & HCI for Wellbeing
   keywords:
   - human-computer interaction
