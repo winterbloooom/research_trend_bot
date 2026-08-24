@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백에 대한 선호도 패턴 요약입니다.\n\n- 사용자는 LLM Agents의 역량, 전이, 범위 지정 및 아키텍처에 중점을 둔 연구에 강한 선호를 보입니다. 특히 \"AI4AI at Test-Time\" 및 \"Dynamic Capability Scoping\"과 같이 LLM의 효율성, 후처리, 또는 게임 에이전트 맥락에서 에이전트 자체의 메커니즘을 다루는 논문들을 긍정적으로 평가했습니다.\n- LLM 또는 Multi-Agent 시스템을 사용하더라도, 분자 결합(화학/생물학), 차량 통신(C-V2X), 또는 일반 3D 인지(radar-camera)와 같은 특정 비관련 응용 분야에 초점을 맞춘 논문들은 일관되게 관련성이 없다고 평가되었습니다. 사용자 관심사인 \"3D Asset Generation\"이나 \"Game-Playing Agents\"가 일반 3D 인지나 비게임 Multi-Agent 시스템으로 확장되지 않습니다.\n- 봇은 높은 점수를 부여했음에도 불구하고, 사용자는 특정 응용 도메인 때문에 여러 논문을 관련 없다고 판단하여 봇 점수와 사용자 선호도 사이에 상당한 차이가 있음을 보여줍니다.\n- 향후 추천 시스템은 LLM, Multi-Agent, 3D와 같은 기술 자체보다는 해당 기술의 *응용 도메인*과 *구체적인 초점*을 더 중요하게 고려하여 추천의 정확도를 높여야 합니다.",
-  "generated_at": "2026-08-17T03:41:40.063671+00:00",
-  "total_entries": 5,
+  "summary": "다음은 사용자 피드백을 기반으로 한 연구 선호도 패턴 요약입니다.\n\n*   **긍정적인 선호도:** 사용자는 LLM Agents의 역량 전이(capability transfer) 및 동적 범위 지정(dynamic capability scoping)과 같은 기능 관리, 그리고 Enterprise AI Agents와 같은 실제 적용에 중점을 둔 연구에 강한 관심을 보입니다. 특히 \"Efficient & Small Language Models\" 및 \"LLM Post-Training & Vertical Models\"과 같은 효율성 및 최적화 관련 주제와도 잘 연결됩니다.\n*   **부정적인 선호도:** LLM을 분자 결합(binding molecules)이나 공간 제약(spatial constraints)과 같은 특정 과학 분야(예: 화학, 생물학)에 적용하는 연구는 LLM 관련성이 높더라도 사용자의 핵심 연구 관심사와는 관련이 없다고 판단됩니다.\n*   **봇 점수와 사용자 선호도 간의 불일치:** \"Do Language Models Dream of Binding Molecules?\"와 같이 봇 점수가 높게(8점) 평가된 논문이라도, 그 적용 도메인이 사용자의 핵심 관심사(LLM Agents, 효율성, HCI 등)와 일치하지 않으면 관련성이 낮게 평가될 수 있습니다.\n*   **향후 추천 개선을 위한 통찰:** LLM Agents의 역량 개발, 효율성, 후처리(post-training) 및 Human-Centered AI 맥락에서의 적용에 초점을 맞추고, 특정 과학 도메인에 대한 LLM 적용 논문은 제외하여 추천의 정확도를 높여야 합니다.",
+  "generated_at": "2026-08-24T03:45:50.786577+00:00",
+  "total_entries": 3,
   "total_references": 0,
   "active_interests": [
     "Efficient & Small Language Models",
