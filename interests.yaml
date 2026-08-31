@@ -82,6 +82,10 @@ research_interests:
   - capability scoping
   - permission architecture
   - capability transfer
+  - AI4AI
+  - strong-to-weak capability transfer
+  - dynamic capability scoping
+  - test-time optimization
   arxiv_categories:
   - cs.AI
   - cs.LG
