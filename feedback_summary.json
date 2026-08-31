@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백을 기반으로 한 연구 선호도 패턴 요약입니다.\n\n*   **긍정적인 선호도:** 사용자는 LLM Agents의 역량 전이(capability transfer) 및 동적 범위 지정(dynamic capability scoping)과 같은 기능 관리, 그리고 Enterprise AI Agents와 같은 실제 적용에 중점을 둔 연구에 강한 관심을 보입니다. 특히 \"Efficient & Small Language Models\" 및 \"LLM Post-Training & Vertical Models\"과 같은 효율성 및 최적화 관련 주제와도 잘 연결됩니다.\n*   **부정적인 선호도:** LLM을 분자 결합(binding molecules)이나 공간 제약(spatial constraints)과 같은 특정 과학 분야(예: 화학, 생물학)에 적용하는 연구는 LLM 관련성이 높더라도 사용자의 핵심 연구 관심사와는 관련이 없다고 판단됩니다.\n*   **봇 점수와 사용자 선호도 간의 불일치:** \"Do Language Models Dream of Binding Molecules?\"와 같이 봇 점수가 높게(8점) 평가된 논문이라도, 그 적용 도메인이 사용자의 핵심 관심사(LLM Agents, 효율성, HCI 등)와 일치하지 않으면 관련성이 낮게 평가될 수 있습니다.\n*   **향후 추천 개선을 위한 통찰:** LLM Agents의 역량 개발, 효율성, 후처리(post-training) 및 Human-Centered AI 맥락에서의 적용에 초점을 맞추고, 특정 과학 도메인에 대한 LLM 적용 논문은 제외하여 추천의 정확도를 높여야 합니다.",
-  "generated_at": "2026-08-24T03:45:50.786577+00:00",
-  "total_entries": 3,
+  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n-   사용자는 LLM 에이전트의 역량 관리 및 전이, 특히 \"Strong-to-Weak Capability Transfer\" 및 \"Dynamic Capability Scoping\"과 같은 개념에 큰 관심을 보입니다. 이는 AI 시스템의 효율성, 적응성 및 제어에 대한 선호를 나타냅니다.\n-   제안된 논문들은 엔터프라이즈 환경에서의 AI 에이전트의 실제 적용 및 \"Test-Time\" 성능 최적화와 관련된 주제에 일관되게 부합합니다. 이는 이론보다는 실용적인 배포 및 운영 측면에 대한 강한 선호를 시사합니다.\n-   봇 점수가 6점과 8점이었음에도 불구하고, 사용자는 이 논문들을 자신의 연구 관심사와 매우 관련이 있다고 평가했습니다. 이는 6점 이상의 점수도 사용자에게는 높은 관련성을 가질 수 있음을 나타내므로, 봇의 점수 임계값을 재평가할 필요가 있습니다.\n-   향후 추천에서는 LLM 에이전트의 실용적 배포, 역량 관리, 효율성 향상 및 아키텍처 설계에 초점을 맞춘 논문을 우선적으로 고려해야 합니다. 특히 \"AI4AI\" 및 \"Enterprise AI Agents\"와 같은 키워드를 포함하는 논문이 유용할 것입니다.",
+  "generated_at": "2026-08-31T09:06:12.506545+00:00",
+  "total_entries": 2,
   "total_references": 0,
   "active_interests": [
     "Efficient & Small Language Models",
