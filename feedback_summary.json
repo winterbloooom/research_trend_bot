@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n-   사용자는 LLM 에이전트의 역량 관리 및 전이, 특히 \"Strong-to-Weak Capability Transfer\" 및 \"Dynamic Capability Scoping\"과 같은 개념에 큰 관심을 보입니다. 이는 AI 시스템의 효율성, 적응성 및 제어에 대한 선호를 나타냅니다.\n-   제안된 논문들은 엔터프라이즈 환경에서의 AI 에이전트의 실제 적용 및 \"Test-Time\" 성능 최적화와 관련된 주제에 일관되게 부합합니다. 이는 이론보다는 실용적인 배포 및 운영 측면에 대한 강한 선호를 시사합니다.\n-   봇 점수가 6점과 8점이었음에도 불구하고, 사용자는 이 논문들을 자신의 연구 관심사와 매우 관련이 있다고 평가했습니다. 이는 6점 이상의 점수도 사용자에게는 높은 관련성을 가질 수 있음을 나타내므로, 봇의 점수 임계값을 재평가할 필요가 있습니다.\n-   향후 추천에서는 LLM 에이전트의 실용적 배포, 역량 관리, 효율성 향상 및 아키텍처 설계에 초점을 맞춘 논문을 우선적으로 고려해야 합니다. 특히 \"AI4AI\" 및 \"Enterprise AI Agents\"와 같은 키워드를 포함하는 논문이 유용할 것입니다.",
-  "generated_at": "2026-08-31T09:06:12.506545+00:00",
-  "total_entries": 2,
+  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다:\n\n- 사용자는 \"Strong-to-Weak Capability Transfer\" 및 \"AI4AI at Test-Time\"과 관련된 논문을 긍정적으로 평가했습니다. 이는 강력한 모델의 역량을 약한 모델로 이전하는 기술, 특히 \"Efficient & Small Language Models\" 및 \"LLM Post-Training & Vertical Models\" 분야에 대한 높은 관심을 보여줍니다.\n- 사용자는 \"Efficient & Small Language Models\", \"LLM Post-Training & Vertical Models\", \"LLM Agents & Agent Loops\" 등 LLM의 효율성, 후처리, 에이전트 관련 주제에 일관된 관심을 보입니다. 이번 피드백은 LLM 효율성 및 역량 전이의 중요성을 다시 한번 강조합니다.\n- 봇 점수 6점은 긍정적인 피드백을 받은 논문에 대해 합리적인 초기 정렬을 보여주지만, 사용자의 구체적인 관심사 목록에 맞춰 논문 내용을 더 정밀하게 매핑하여 점수 정확도를 높일 여지가 있습니다.\n- 향후 추천에서는 LLM의 효율성을 위한 모델 증류(distillation), 역량 전이(capability transfer), 또는 메타 학습(meta-learning)을 명시적으로 다루는 논문을 우선시하고, \"LLM Agents & Agent Loops\"와의 교차점도 탐색해야 합니다.",
+  "generated_at": "2026-09-07T07:42:44.914964+00:00",
+  "total_entries": 1,
   "total_references": 0,
   "active_interests": [
     "Efficient & Small Language Models",
