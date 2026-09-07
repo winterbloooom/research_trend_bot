@@ -24,6 +24,7 @@ research_interests:
   - compute-efficient
   - edge deployment
   - on-device LLM
+  - capability transfer
   arxiv_categories:
   - cs.LG
   - cs.CL
@@ -53,6 +54,7 @@ research_interests:
   - vertical model
   - vertical LLM
   - data curation
+  - capability transfer
   arxiv_categories:
   - cs.CL
   - cs.LG
