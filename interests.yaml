@@ -82,11 +82,15 @@ research_interests:
   - capability scoping
   - permission architecture
   - capability transfer
+  - data synthesis
   arxiv_categories:
   - cs.AI
   - cs.LG
   - cs.CL
   - cs.MA
+  special_instructions: Focus on practical applications, benchmarks, and methodologies
+    like data synthesis, especially for multi-step tool-calling in specific domains
+    or languages (e.g., Korean APIs).
 - name: Autonomous Game Agents & Game-as-Testbed
   keywords:
   - NPC
