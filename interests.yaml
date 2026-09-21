@@ -82,6 +82,8 @@ research_interests:
   - capability scoping
   - permission architecture
   - capability transfer
+  - multi-step tool-calling
+  - API integration
   arxiv_categories:
   - cs.AI
   - cs.LG
