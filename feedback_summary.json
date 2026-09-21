@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백을 기반으로 한 선호도 요약입니다:\n\n*   사용자께서는 \"Multi-Step Tool-Calling\" 및 \"LLM Agents\" 관련 연구, 특히 한국어 API와 같은 특정 도메인에 적용되는 실용적인 벤치마크 및 데이터 합성 방법에 높은 관심을 보입니다.\n*   전반적으로 LLM의 에이전트 기능, 후처리(Post-Training), 효율성 관련 주제를 선호하며, 특히 실제 문제 해결에 초점을 맞춘 연구에 긍정적인 반응을 보입니다.\n*   봇 점수 9점의 \"Multi-Step Tool-Calling\" 논문은 사용자 관심사와 매우 밀접하게 일치하는 반면, 6점인 \"Capability Transfer\" 논문은 관련성이 있지만 에이전트의 직접적인 활용보다는 추상적인 개념에 가까워 상대적으로 선호도가 낮았습니다.\n*   향후 추천에서는 \"LLM Agents\"의 \"Tool-Calling\" 및 \"Multi-Step\" 활용, 특정 언어/도메인(예: 한국어 API) 적용, 그리고 실용적인 데이터 합성 레시피와 같은 구체적인 방법론을 다루는 논문에 더 높은 가중치를 부여해야 합니다.",
-  "generated_at": "2026-09-14T08:20:58.196338+00:00",
-  "total_entries": 2,
+  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n*   사용자는 \"Multi-Step Tool-Calling\" 및 API를 활용한 실제 적용 사례를 다루는 LLM Agents 분야에 강한 관심을 보입니다.\n*   제공된 논문은 사용자의 \"LLM Agents & Agent Loops\" 관심사와 정확히 일치하여 높은 사용자 만족도(9점)를 얻었습니다.\n*   향후 추천에서는 \"Tool-Calling\"과 같은 복잡한 상호작용 메커니즘을 포함하는 LLM Agents 관련 논문과, \"Korean Open Public APIs\"와 같이 특정 언어 또는 도메인에 특화된 실용적 적용 사례를 우선적으로 고려해야 합니다.",
+  "generated_at": "2026-09-21T08:23:27.630672+00:00",
+  "total_entries": 1,
   "total_references": 0,
   "active_interests": [
     "Efficient & Small Language Models",
