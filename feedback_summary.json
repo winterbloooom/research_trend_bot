@@ -1,7 +1,7 @@
 {
-  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n*   사용자는 \"Multi-Step Tool-Calling\" 및 API를 활용한 실제 적용 사례를 다루는 LLM Agents 분야에 강한 관심을 보입니다.\n*   제공된 논문은 사용자의 \"LLM Agents & Agent Loops\" 관심사와 정확히 일치하여 높은 사용자 만족도(9점)를 얻었습니다.\n*   향후 추천에서는 \"Tool-Calling\"과 같은 복잡한 상호작용 메커니즘을 포함하는 LLM Agents 관련 논문과, \"Korean Open Public APIs\"와 같이 특정 언어 또는 도메인에 특화된 실용적 적용 사례를 우선적으로 고려해야 합니다.",
-  "generated_at": "2026-09-21T08:23:27.630672+00:00",
-  "total_entries": 1,
+  "summary": "다음은 사용자 피드백 분석을 통한 선호도 요약입니다.\n\n*   사용자는 LLM Agents, 특히 Tool Calling 기능을 활용하며 실제 프로덕션 환경이나 고객 경험에 적용되는 연구에 높은 선호도를 보입니다.\n*   Speech-to-Speech 모델과 같은 대화형 AI, 그리고 한국어 API와 같은 특정 언어/환경에서의 Multi-Step Tool-Calling 벤치마크 및 데이터 합성 연구도 일관되게 긍정적인 평가를 받았습니다.\n*   향후 추천은 LLM Agents의 실제 적용 사례, Tool Calling 메커니즘, Speech & Conversational Voice LLMs, 그리고 특정 도메인 또는 언어에 대한 벤치마크 및 실용적 솔루션에 중점을 두어야 합니다.",
+  "generated_at": "2026-09-28T09:09:50.317714+00:00",
+  "total_entries": 3,
   "total_references": 0,
   "active_interests": [
     "Efficient & Small Language Models",
