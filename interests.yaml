@@ -82,11 +82,16 @@ research_interests:
   - capability scoping
   - permission architecture
   - capability transfer
+  - multi-step tool calling
+  - production agent
+  - customer experience AI
   arxiv_categories:
   - cs.AI
   - cs.LG
   - cs.CL
   - cs.MA
+  special_instructions: Focus on practical applications, deployment, and real-world
+    scenarios for LLM agents, especially in enterprise or customer-facing contexts.
 - name: Autonomous Game Agents & Game-as-Testbed
   keywords:
   - NPC
@@ -209,6 +214,7 @@ research_interests:
   - paralinguistic
   - prosody
   - speech emotion
+  - speech tool calling
   arxiv_categories:
   - eess.AS
   - cs.SD
