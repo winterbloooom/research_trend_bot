@@ -1,6 +1,6 @@
 {
-  "summary": "다음은 사용자 피드백 분석을 통한 선호도 요약입니다.\n\n*   사용자는 LLM Agents, 특히 Tool Calling 기능을 활용하며 실제 프로덕션 환경이나 고객 경험에 적용되는 연구에 높은 선호도를 보입니다.\n*   Speech-to-Speech 모델과 같은 대화형 AI, 그리고 한국어 API와 같은 특정 언어/환경에서의 Multi-Step Tool-Calling 벤치마크 및 데이터 합성 연구도 일관되게 긍정적인 평가를 받았습니다.\n*   향후 추천은 LLM Agents의 실제 적용 사례, Tool Calling 메커니즘, Speech & Conversational Voice LLMs, 그리고 특정 도메인 또는 언어에 대한 벤치마크 및 실용적 솔루션에 중점을 두어야 합니다.",
-  "generated_at": "2026-09-28T09:09:50.317714+00:00",
+  "summary": "다음은 사용자 피드백에 기반한 연구 선호도 요약입니다:\n\n- 사용자는 LLM Agents, 특히 Tool Calling 기능을 활용하여 실제 환경에 적용되는 연구에 강한 선호도를 보입니다. 이는 \"Simulation for Production Customer Experience AI Agents\" 및 \"Multi-Step Tool-Calling over Korean Open Public APIs\" 논평에서 명확히 드러납니다.\n- Speech & Conversational Voice LLMs 분야, 특히 full-duplex 모델이나 고객 경험 AI 에이전트와 같이 실용적인 대화형 AI 시스템에 높은 관심을 가지고 있습니다. \"NemotronLabs VoiceChat\" 논문이 이 경향을 잘 보여줍니다.\n- 시뮬레이션, 벤치마크, 특정 언어(예: Korean) 또는 도메인(예: 고객 경험, 공공 API)에 대한 적용 등 실제 배포 및 평가와 관련된 실용적인 측면의 연구를 중요하게 생각합니다.\n- 향후 추천에서는 LLM Agents의 Tool Calling 능력과 Speech/Conversational AI의 결합, 그리고 실제 서비스 환경에서의 적용 및 평가 방법을 다루는 논문에 더 높은 가중치를 부여해야 합니다.",
+  "generated_at": "2026-10-05T09:50:06.629706+00:00",
   "total_entries": 3,
   "total_references": 0,
   "active_interests": [
