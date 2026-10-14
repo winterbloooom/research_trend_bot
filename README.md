@@ -125,6 +125,7 @@ email:
 llm:
   scoring_model: "gemini-2.5-flash-lite"
   analysis_model: "gemini-2.5-flash"
+  analysis_fallback_model: "gemini-2.5-flash-lite"  # used when analysis_model is overloaded; "" disables
 
 # Optional: GitHub Issue-based feedback (disabled by default)
 feedback:

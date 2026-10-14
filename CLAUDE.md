@@ -90,7 +90,8 @@ feedback_summary.json                        # LLM-generated feedback summary (a
 - Scorer uses keyword pre-filter before LLM calls to save API quota
 - Scorer batch size is 25 (not 10) — optimized for free-tier rate limits
 - Scorer has built-in 429 retry that respects Gemini's `retryDelay`
-- Analyzer passes raw PDF bytes to Gemini via `Part.from_bytes()` — PDFs >20 MB or >30 pages are skipped
+- Analyzer passes raw PDF bytes to Gemini via `Part.from_bytes()` — PDFs >20 MB or >50 pages are skipped
+- Analyzer retries only transient errors (429/5xx/network, `_is_transient`); if `analysis_model` stays overloaded after retries it switches to `llm.analysis_fallback_model` (default `gemini-2.5-flash-lite`) for that and all remaining papers. Papers whose analysis still fails are delivered abstract-only (`AnalyzedPaper.analysis=None` → template shows abstract + scoring rationale), so an analysis-model outage never empties the digest
 - `PdfReader` requires `io.BytesIO()` wrapper around raw bytes
 - `interests.yaml` is git-tracked; `config.yaml` is gitignored. `load_config()` merges both (interests.yaml wins).
 - The `email_builder.py` `bulletize` Jinja2 filter converts `"- "` prefixed lines to `<ul><li>` HTML

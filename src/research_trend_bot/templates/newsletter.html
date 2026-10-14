@@ -56,10 +56,11 @@
                             {{ item.paper.title }}
                           </a>
                           <p style="margin:4px 0 0;font-size:12px;color:#888;">
-                            {{ item.analysis.authors[:3]|join(', ') }}{% if item.analysis.authors|length > 3 %} et al.{% endif %}
+                            {% set authors = item.analysis.authors if item.analysis else item.paper.authors %}
+                            {{ authors[:3]|join(', ') }}{% if authors|length > 3 %} et al.{% endif %}
                             &middot; {{ item.paper.published.strftime('%Y-%m-%d') }}
                           </p>
-                          {% if item.analysis.affiliations %}
+                          {% if item.analysis and item.analysis.affiliations %}
                           <p style="margin:2px 0 0;font-size:11px;color:#aaa;">
                             {{ item.analysis.affiliations|join(', ') }}
                           </p>
@@ -79,13 +80,14 @@
                     </table>
                     <!-- Keywords -->
                     <p style="margin:8px 0 0;">
-                      {% for kw in item.analysis.keywords %}
+                      {% for kw in (item.analysis.keywords if item.analysis else item.relevance.matched_keywords) %}
                         <span style="display:inline-block;background-color:#f5f5f5;color:#555;padding:2px 8px;border-radius:10px;font-size:11px;margin:1px 1px;">{{ kw }}</span>
                       {% endfor %}
                     </p>
                   </td>
                 </tr>
 
+                {% if item.analysis %}
                 <!-- Task -->
                 <tr>
                   <td style="padding:12px 20px 4px;">
@@ -147,6 +149,33 @@
                     </table>
                   </td>
                 </tr>
+
+                {% else %}
+                <!-- Abstract-only fallback (PDF analysis unavailable) -->
+                <tr>
+                  <td style="padding:12px 20px 4px;">
+                    <p style="margin:0;font-size:11px;color:#b26a00;">Full analysis unavailable &mdash; showing the abstract and relevance rationale.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 20px 4px;">
+                    <p style="margin:0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Abstract</p>
+                    <p style="margin:4px 0 0;font-size:13px;color:#333;line-height:1.5;">{{ item.paper.abstract }}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 20px 16px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="background-color:#e8f5e9;border-left:3px solid #4caf50;padding:10px 14px;border-radius:0 4px 4px 0;">
+                          <p style="margin:0;font-size:11px;color:#2e7d32;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Why It Was Selected</p>
+                          {{ item.relevance.reasoning | bulletize }}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                {% endif %}
 
                 {% if feedback_urls and item.paper.arxiv_id in feedback_urls %}
                 <!-- Feedback Buttons -->

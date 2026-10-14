@@ -22,7 +22,7 @@ from research_trend_bot.feedback import (
     load_reference_papers,
 )
 from research_trend_bot.fetcher import fetch_papers
-from research_trend_bot.models import DigestReport
+from research_trend_bot.models import AnalyzedPaper, DigestReport
 from research_trend_bot.scorer import score_papers
 from research_trend_bot.sender import send_email, verify_smtp_auth
 
@@ -90,9 +90,23 @@ def run(config_path: str) -> None:
     # ── Stage 2: Analyze full papers ───────────────────
     logger.info("=== Stage 2: Analyzing %d papers ===", len(scored))
     analyzed = analyze_papers(client, config, scored, feedback_context=feedback_context)
-    if not analyzed:
-        logger.info("No papers successfully analyzed. Skipping email.")
-        return
+
+    # Papers whose PDF analysis failed (model overload, oversized PDF, ...) are
+    # still delivered with their abstract + scoring rationale, so an outage of
+    # the analysis model never empties the digest.
+    by_id = {item.paper.arxiv_id: item for item in analyzed}
+    analyzed = [
+        by_id.get(sp.paper.arxiv_id)
+        or AnalyzedPaper(paper=sp.paper, relevance=sp.relevance)
+        for sp in scored
+    ]
+    abstract_only = len(scored) - len(by_id)
+    if abstract_only:
+        logger.warning(
+            "%d/%d papers included without full analysis (abstract only)",
+            abstract_only,
+            len(scored),
+        )
 
     # ── Build email ────────────────────────────────────
     logger.info("=== Building email digest ===")

@@ -45,6 +45,9 @@ class LLMConfig(BaseModel):
 
     scoring_model: str = "gemini-2.5-flash-lite"
     analysis_model: str = "gemini-2.5-flash"
+    # Used when analysis_model stays overloaded (429/5xx) after retries.
+    # Set to "" to disable the fallback.
+    analysis_fallback_model: str = "gemini-2.5-flash-lite"
 
 
 class FeedbackConfig(BaseModel):
@@ -138,11 +141,15 @@ class PaperAnalysis(BaseModel):
 
 
 class AnalyzedPaper(BaseModel):
-    """A scored paper with its full analysis."""
+    """A scored paper with its full analysis.
+
+    ``analysis`` is None when PDF analysis failed; the digest then shows the
+    abstract and scoring rationale instead of dropping the paper.
+    """
 
     paper: ArxivPaper
     relevance: RelevanceScore
-    analysis: PaperAnalysis
+    analysis: PaperAnalysis | None = None
 
 
 class FeedbackEntry(BaseModel):
