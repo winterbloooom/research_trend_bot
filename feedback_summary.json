@@ -1,6 +1,6 @@
 {
-  "summary": "다음은 사용자 피드백 패턴에 대한 요약입니다.\n\n- 사용자 선별 레퍼런스 논문들은 **음성 품질 평가 (Speech Quality Evaluation)**, 특히 **LLM 기반 평가 (LLM-based evaluation)**, **보상 모델 (Reward Models) 및 RLHF (Reinforcement Learning from Human Feedback) 적용**, 그리고 **한국어 음성 (Korean speech)** 관련 연구에 대한 강한 선호를 보여줍니다.\n- 긍정적인 피드백을 받은 논문들은 **LLM 에이전트 (LLM Agents)** 및 **도구 호출 (Tool Calling)** 기능과 관련된 연구, 특히 **음성 대화형 AI (Speech Conversational AI)** 및 **한국어 (Korean)** 맥락에서의 적용에 지속적인 관심을 나타냅니다.\n- 현재 추천 논문들이 LLM 에이전트 및 한국어 관련 주제를 잘 다루고 있지만, 향후 추천에서는 골드 스탠다드에서 나타난 **음성 품질 평가 (Speech Quality Evaluation)**, **음성 자연성 (Speech Naturalness)**, 그리고 **보상 모델 (Reward Models)**을 활용한 연구에 더 깊이 초점을 맞춰야 합니다.\n- 특히, **LLM 에이전트 (LLM Agents)**가 **음성 평가 (Speech Evaluation)** 또는 **보상 모델 (Reward Models)**과 결합된 연구, 또는 이러한 분야의 **벤치마크 (Benchmark)** 및 **평가 지표 (Evaluation Metrics)** 개발에 관한 논문은 사용자에게 매우 높은 관련성을 가질 것입니다.",
-  "generated_at": "2026-10-19T08:17:55.009584+00:00",
+  "summary": "다음은 사용자 피드백을 기반으로 한 연구 선호도 요약입니다.\n\n*   사용자는 음성 품질, 자연성, 운율 평가에 매우 강한 관심을 보입니다. 이는 MOS(Mean Opinion Score) 추정, 음성 RLHF를 위한 Reward Model 개발, 그리고 LLM이나 대규모 오디오 모델을 '심사관'으로 활용하는 음성 AI 시스템 벤치마크 구축과 같은 연구를 포함합니다.\n*   현재 높은 점수를 받은 추천 논문들은 Speech & Conversational Voice LLMs를 활용한 full-duplex 대화형 AI 에이전트 구축, 인간 중심 AI 및 효율적인 LLM에 대한 사용자의 관심사와 일치합니다.\n*   현재 추천은 양호하지만, 향후 추천에서는 음성 및 대화형 AI의 '평가' 측면, 특히 음성 출력 품질 향상을 위한 지표, 인간 지각, Reward Model에 초점을 맞춘 논문에 더 높은 가중치를 부여하여 스코어링을 개선할 수 있습니다.",
+  "generated_at": "2026-10-26T08:18:22.216645+00:00",
   "total_entries": 3,
   "total_references": 7,
   "active_interests": [
