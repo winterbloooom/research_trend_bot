@@ -40,6 +40,7 @@ research_interests:
   - speech emotion
   - speech tool calling
   - speech benchmark
+  - real-world benchmark
   - spoken language benchmark
   - audio benchmark
   - speech evaluation
@@ -52,6 +53,7 @@ research_interests:
   - speech quality assessment
   - speech naturalness
   - naturalness evaluation
+  - human judgment
   - mean opinion score
   - MOS prediction
   - LLM-as-a-judge for speech
